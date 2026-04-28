@@ -1,0 +1,3 @@
+# Root graphql-config — one entry per workspace.
+# Entries are added by subsequent plans as workspaces are created.
+projects: {}
