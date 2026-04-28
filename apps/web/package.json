@@ -17,6 +17,8 @@
     "db:reset": "prisma migrate reset --force && pnpm db:seed"
   },
   "dependencies": {
+    "@apollo/client": "^4.1.9",
+    "@apollo/client-integration-nextjs": "^0.14.5",
     "@graphql-tools/graphql-file-loader": "^8.0.0",
     "@graphql-tools/load": "^8.0.0",
     "@graphql-tools/load-files": "^7.0.1",
@@ -28,18 +30,24 @@
     "graphql-yoga": "^5.0.0",
     "next": "^15.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typed-document-node": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.0",
     "@graphql-codegen/typescript-resolvers": "^4.0.0",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4.2.4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.7.0",
     "@vitest/coverage-v8": "^2.0.0",
+    "jsdom": "^29.1.0",
     "postcss": "^8.5.12",
     "prisma": "^5.0.0",
     "tailwindcss": "^4.2.4",
