@@ -61,13 +61,13 @@ jobs:
           DATABASE_URL: file:./prisma/test.db
 
       - name: Install Playwright browsers
-        run: pnpm --filter @analyzer-testbed/web playwright install chromium --with-deps
+        run: pnpm --filter @analyzer-testbed/web exec playwright install chromium --with-deps
 
       - name: Seed database
         run: pnpm --filter @analyzer-testbed/web db:seed
 
       - name: Run Playwright E2E tests
-        run: pnpm --filter @analyzer-testbed/web playwright test
+        run: pnpm --filter @analyzer-testbed/web exec playwright test
         env:
           CI: true
 
