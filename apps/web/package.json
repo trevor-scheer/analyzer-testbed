@@ -14,7 +14,8 @@
     "db:migrate": "prisma migrate dev --name init",
     "db:seed:fetch": "tsx prisma/fetch-seed-data.ts",
     "db:seed": "tsx prisma/seed.ts",
-    "db:reset": "prisma migrate reset --force && pnpm db:seed"
+    "db:reset": "prisma migrate reset --force && pnpm db:seed",
+    "playwright": "playwright test"
   },
   "dependencies": {
     "@apollo/client": "^4.1.9",
