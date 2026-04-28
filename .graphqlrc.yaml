@@ -1,3 +1,19 @@
 # Root graphql-config — one entry per workspace.
 # Entries are added by subsequent plans as workspaces are created.
-projects: {}
+projects:
+  web:
+    schema: "apps/web/graphql/*.graphql"
+    documents: "apps/web/**/*.{ts,tsx,graphql}"
+    extensions:
+      lint:
+        rules:
+          # Deprecation rules — captureRate is @deprecated, so this triggers
+          - rule: no-deprecated
+            severity: warning
+          # Naming conventions
+          - rule: naming-convention
+            severity: error
+            config:
+              FieldDefinition: camelCase
+              TypeDefinition: PascalCase
+              EnumValueDefinition: SCREAMING_SNAKE_CASE
