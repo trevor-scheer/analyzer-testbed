@@ -47,6 +47,8 @@ yarn-error.log*
 # Test / coverage
 coverage/
 .nyc_output/
+**/playwright-report/
+**/test-results/
 
 # GraphQL codegen (committed when used as snapshot; gitignore the volatile ones)
 # Individual packages may override this
