@@ -204,3 +204,19 @@ type Query {
   """All regions."""
   regions: [Region!]!
 }
+
+"""
+Root Mutation type. Concrete fields are added by `extend type Mutation`
+in `schema.team.graphql` and `schema.battle.graphql`.
+"""
+type Mutation {
+  _: Boolean
+}
+
+"""
+Root Subscription type. Concrete fields are added by `extend type Subscription`
+in `schema.battle.graphql`.
+"""
+type Subscription {
+  _: Boolean
+}
