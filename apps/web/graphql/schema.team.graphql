@@ -1,31 +1,48 @@
-"""A registered trainer (user account)."""
+"""
+A registered trainer (user account).
+"""
 type Trainer {
   id: ID!
   name: String!
   joinedAt: DateTime!
-  """The trainer's favorite Pokémon, if set."""
+  """
+  The trainer's favorite Pokémon, if set.
+  """
   favoritePokemon: Pokemon
-  """All teams owned by this trainer."""
+  """
+  All teams owned by this trainer.
+  """
   teams: [Team!]!
-  """Battles this trainer has participated in."""
+  """
+  Battles this trainer has participated in.
+  """
   battleHistory: [Battle!]!
 }
 
-
-"""One slot in a Team (max 6 slots per team)."""
+"""
+One slot in a Team (max 6 slots per team).
+"""
 type TeamSlot {
   id: ID!
   position: Int!
   pokemon: Pokemon!
-  """Optional nickname set by the trainer."""
+  """
+  Optional nickname set by the trainer.
+  """
   nickname: String
-  """Level of this Pokémon (1–100)."""
+  """
+  Level of this Pokémon (1–100).
+  """
   level: Int!
-  """Up to 4 moves selected for this slot."""
+  """
+  Up to 4 moves selected for this slot.
+  """
   moves: [Move!]!
 }
 
-"""A named team of up to 6 Pokémon."""
+"""
+A named team of up to 6 Pokémon.
+"""
 type Team {
   id: ID!
   name: String!
@@ -36,14 +53,20 @@ type Team {
 }
 
 extend type Query {
-  """The currently authenticated trainer, or null if not signed in."""
+  """
+  The currently authenticated trainer, or null if not signed in.
+  """
   viewer: Trainer
-  """Fetch a team by ID (only the owner can view their own teams)."""
+  """
+  Fetch a team by ID (only the owner can view their own teams).
+  """
   team(id: ID!): Team
 }
 
 input SignInInput {
-  """Display name for the session. Creates an account if it does not exist."""
+  """
+  Display name for the session. Creates an account if it does not exist.
+  """
   name: String!
 }
 
@@ -54,16 +77,22 @@ input CreateTeamInput {
 input UpdateTeamInput {
   teamId: ID!
   name: String
-  """Full replacement of the slot list. Omit to leave slots unchanged."""
+  """
+  Full replacement of the slot list. Omit to leave slots unchanged.
+  """
   slots: [TeamSlotInput!]
 }
 
 input TeamSlotInput {
   pokemonId: ID!
   nickname: String
-  """Defaults to 50 if omitted."""
+  """
+  Defaults to 50 if omitted.
+  """
   level: Int
-  """Up to 4 move IDs."""
+  """
+  Up to 4 move IDs.
+  """
   moveIds: [ID!]
 }
 
@@ -85,7 +114,9 @@ extend type Mutation {
   Sets a session cookie.
   """
   signIn(input: SignInInput!): AuthPayload!
-  """Clear the session cookie."""
+  """
+  Clear the session cookie.
+  """
   signOut: Boolean!
   createTeam(input: CreateTeamInput!): TeamPayload!
   updateTeam(input: UpdateTeamInput!): TeamPayload!

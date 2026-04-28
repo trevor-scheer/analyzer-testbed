@@ -4,7 +4,9 @@ Serialized as a string over the wire.
 """
 scalar DateTime
 
-"""The 18 elemental types in the Pokémon universe."""
+"""
+The 18 elemental types in the Pokémon universe.
+"""
 enum PokemonType {
   NORMAL
   FIRE
@@ -26,32 +28,48 @@ enum PokemonType {
   FAIRY
 }
 
-"""Multiplier applied when one type attacks another."""
+"""
+Multiplier applied when one type attacks another.
+"""
 type TypeEffectiveness {
   attacker: PokemonType!
   defender: PokemonType!
-  """0, 0.25, 0.5, 1, 2, or 4."""
+  """
+  0, 0.25, 0.5, 1, 2, or 4.
+  """
   multiplier: Float!
 }
 
-"""A geographic region in the Pokémon world."""
+"""
+A geographic region in the Pokémon world.
+"""
 type Region {
   id: ID!
   name: String!
-  """Generation this region was introduced in (1–9)."""
+  """
+  Generation this region was introduced in (1–9).
+  """
   generation: Int!
 }
 
-"""One step in a Pokémon's evolution chain."""
+"""
+One step in a Pokémon's evolution chain.
+"""
 type EvolutionStage {
   pokemon: Pokemon!
-  """Minimum level required to reach this stage, if applicable."""
+  """
+  Minimum level required to reach this stage, if applicable.
+  """
   minLevel: Int
-  """Item consumed or used to trigger this evolution, if applicable."""
+  """
+  Item consumed or used to trigger this evolution, if applicable.
+  """
   triggerItem: String
 }
 
-"""A single base stat value."""
+"""
+A single base stat value.
+"""
 type Stats {
   hp: Int!
   attack: Int!
@@ -61,12 +79,16 @@ type Stats {
   speed: Int!
 }
 
-"""A learnable ability."""
+"""
+A learnable ability.
+"""
 type Ability {
   id: ID!
   name: String!
   description: String!
-  """Whether this is a hidden ability."""
+  """
+  Whether this is a hidden ability.
+  """
   isHidden: Boolean!
 }
 
@@ -78,15 +100,21 @@ interface Move {
   id: ID!
   name: String!
   type: PokemonType!
-  """Base power, or null for moves with no direct damage."""
+  """
+  Base power, or null for moves with no direct damage.
+  """
   power: Int
-  """Accuracy percentage (5–100), or null for moves that never miss."""
+  """
+  Accuracy percentage (5–100), or null for moves that never miss.
+  """
   accuracy: Int
   pp: Int!
   description: String!
 }
 
-"""A move that uses the user's Attack stat against the target's Defense stat."""
+"""
+A move that uses the user's Attack stat against the target's Defense stat.
+"""
 type PhysicalMove implements Move {
   id: ID!
   name: String!
@@ -95,11 +123,15 @@ type PhysicalMove implements Move {
   accuracy: Int
   pp: Int!
   description: String!
-  """Whether this move makes contact (triggers contact-based abilities)."""
+  """
+  Whether this move makes contact (triggers contact-based abilities).
+  """
   makesContact: Boolean!
 }
 
-"""A move that uses the user's Special Attack stat against the target's Special Defense stat."""
+"""
+A move that uses the user's Special Attack stat against the target's Special Defense stat.
+"""
 type SpecialMove implements Move {
   id: ID!
   name: String!
@@ -108,11 +140,15 @@ type SpecialMove implements Move {
   accuracy: Int
   pp: Int!
   description: String!
-  """Whether this move has a secondary effect chance."""
+  """
+  Whether this move has a secondary effect chance.
+  """
   effectChance: Int
 }
 
-"""A move that inflicts no direct damage — status conditions, stat changes, etc."""
+"""
+A move that inflicts no direct damage — status conditions, stat changes, etc.
+"""
 type StatusMove implements Move {
   id: ID!
   name: String!
@@ -121,46 +157,70 @@ type StatusMove implements Move {
   accuracy: Int
   pp: Int!
   description: String!
-  """Status condition this move can inflict, e.g. "PARALYSIS", "SLEEP"."""
+  """
+  Status condition this move can inflict, e.g. "PARALYSIS", "SLEEP".
+  """
   inflicts: String
 }
 
-"""A Pokémon species entry in the Pokédex."""
+"""
+A Pokémon species entry in the Pokédex.
+"""
 type Pokemon {
   id: ID!
-  """National Pokédex number."""
+  """
+  National Pokédex number.
+  """
   pokedexNumber: Int!
   name: String!
-  """Flavor text from the most recent main-series game."""
+  """
+  Flavor text from the most recent main-series game.
+  """
   flavorText: String!
   types: [PokemonType!]!
   baseStats: Stats!
   abilities: [Ability!]!
-  """Moves this Pokémon can learn."""
+  """
+  Moves this Pokémon can learn.
+  """
   moves: [Move!]!
   region: Region!
-  """Height in meters."""
+  """
+  Height in meters.
+  """
   height: Float!
-  """Weight in kilograms."""
+  """
+  Weight in kilograms.
+  """
   weight: Float!
-  """Evolution chain stages, ordered from base form."""
+  """
+  Evolution chain stages, ordered from base form.
+  """
   evolutionChain: [EvolutionStage!]!
   """
   Legacy field: use `encounterRate` instead.
   @deprecated(reason: "Use `encounterRate` — same value, cleaner name.")
   """
   captureRate: Int @deprecated(reason: "Use `encounterRate` — same value, cleaner name.")
-  """Catch rate (0–255). Higher values mean easier to catch."""
+  """
+  Catch rate (0–255). Higher values mean easier to catch.
+  """
   encounterRate: Int!
-  """Timestamp this record was last synced from PokéAPI."""
+  """
+  Timestamp this record was last synced from PokéAPI.
+  """
   syncedAt: DateTime!
 }
 
-"""A page of Pokémon results."""
+"""
+A page of Pokémon results.
+"""
 type PokemonConnection {
   edges: [PokemonEdge!]!
   pageInfo: PageInfo!
-  """Total count of Pokémon matching the applied filter."""
+  """
+  Total count of Pokémon matching the applied filter.
+  """
   totalCount: Int!
 }
 
@@ -176,32 +236,42 @@ type PageInfo {
   endCursor: String
 }
 
-"""Filter options for the Pokémon list."""
+"""
+Filter options for the Pokémon list.
+"""
 input PokemonFilter {
-  """Case-insensitive name search."""
+  """
+  Case-insensitive name search.
+  """
   nameContains: String
   types: [PokemonType!]
-  """Only return Pokémon from this generation (1–9)."""
+  """
+  Only return Pokémon from this generation (1–9).
+  """
   generation: Int
 }
 
 type Query {
-  """Fetch a single Pokémon by its national Pokédex ID."""
+  """
+  Fetch a single Pokémon by its national Pokédex ID.
+  """
   pokemon(id: ID!): Pokemon
-  """Fetch a single Pokémon by its Pokédex number."""
+  """
+  Fetch a single Pokémon by its Pokédex number.
+  """
   pokemonByNumber(number: Int!): Pokemon
   """
   Relay-style cursor-paginated Pokémon list.
   Default page size is 20; maximum is 100.
   """
-  pokemons(
-    after: String
-    first: Int
-    filter: PokemonFilter
-  ): PokemonConnection!
-  """All type-effectiveness multipliers (18×18 matrix)."""
+  pokemons(after: String, first: Int, filter: PokemonFilter): PokemonConnection!
+  """
+  All type-effectiveness multipliers (18×18 matrix).
+  """
   typeEffectiveness(attacker: PokemonType, defender: PokemonType): [TypeEffectiveness!]!
-  """All regions."""
+  """
+  All regions.
+  """
   regions: [Region!]!
 }
 

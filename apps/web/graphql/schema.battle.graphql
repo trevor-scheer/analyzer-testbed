@@ -1,4 +1,6 @@
-"""Lifecycle state of a battle."""
+"""
+Lifecycle state of a battle.
+"""
 enum BattleStatus {
   WAITING
   IN_PROGRESS
@@ -6,50 +8,78 @@ enum BattleStatus {
   FORFEITED
 }
 
-"""A trainer used their active Pokémon's move."""
+"""
+A trainer used their active Pokémon's move.
+"""
 type MoveAction {
   trainer: Trainer!
   move: Move!
-  """The Pokémon that used the move."""
+  """
+  The Pokémon that used the move.
+  """
   sourcePokemon: Pokemon!
-  """The Pokémon that was targeted."""
+  """
+  The Pokémon that was targeted.
+  """
   targetPokemon: Pokemon!
-  """Damage dealt (0 for status moves)."""
+  """
+  Damage dealt (0 for status moves).
+  """
   damage: Int!
-  """Whether the move landed a critical hit."""
+  """
+  Whether the move landed a critical hit.
+  """
   isCritical: Boolean!
-  """Type-effectiveness multiplier applied."""
+  """
+  Type-effectiveness multiplier applied.
+  """
   effectiveness: Float!
 }
 
-"""A trainer switched their active Pokémon."""
+"""
+A trainer switched their active Pokémon.
+"""
 type SwitchAction {
   trainer: Trainer!
-  """Pokémon being recalled."""
+  """
+  Pokémon being recalled.
+  """
   outPokemon: Pokemon!
-  """Pokémon being sent in."""
+  """
+  Pokémon being sent in.
+  """
   inPokemon: Pokemon!
 }
 
-"""A trainer surrendered the battle."""
+"""
+A trainer surrendered the battle.
+"""
 type ForfeitAction {
   trainer: Trainer!
 }
 
-"""The action taken by one trainer during a turn."""
+"""
+The action taken by one trainer during a turn.
+"""
 union BattleAction = MoveAction | SwitchAction | ForfeitAction
 
-"""One turn of a battle, consisting of two actions (one per trainer)."""
+"""
+One turn of a battle, consisting of two actions (one per trainer).
+"""
 type BattleTurn {
   id: ID!
   turnNumber: Int!
   actionA: BattleAction!
   actionB: BattleAction!
-  """Snapshot of remaining HP for each slot after this turn resolves."""
+  """
+  Snapshot of remaining HP for each slot after this turn resolves.
+  """
   hpSnapshot: String!
 }
 
-"""A head-to-head battle between two trainers."""
+"""
+A head-to-head battle between two trainers.
+"""
 type Battle {
   id: ID!
   trainerA: Trainer!
@@ -63,19 +93,29 @@ type Battle {
   completedAt: DateTime
 }
 
-"""A battle state event pushed via subscription."""
+"""
+A battle state event pushed via subscription.
+"""
 type BattleUpdate {
   battle: Battle!
-  """The turn that just completed, if any."""
+  """
+  The turn that just completed, if any.
+  """
   latestTurn: BattleTurn
-  """Human-readable description of what just happened."""
+  """
+  Human-readable description of what just happened.
+  """
   message: String!
 }
 
 extend type Query {
-  """Fetch a battle by ID."""
+  """
+  Fetch a battle by ID.
+  """
   battle(id: ID!): Battle
-  """All battles for the current viewer."""
+  """
+  All battles for the current viewer.
+  """
   myBattles: [Battle!]!
 }
 
@@ -87,11 +127,17 @@ input StartBattleInput {
 
 input SubmitBattleActionInput {
   battleId: ID!
-  """For move actions: the move ID."""
+  """
+  For move actions: the move ID.
+  """
   moveId: ID
-  """For switch actions: the Pokémon ID to switch in."""
+  """
+  For switch actions: the Pokémon ID to switch in.
+  """
   switchToPokemonId: ID
-  """Set to true to forfeit the battle."""
+  """
+  Set to true to forfeit the battle.
+  """
   forfeit: Boolean
 }
 
@@ -105,6 +151,8 @@ extend type Mutation {
 }
 
 extend type Subscription {
-  """Stream battle state updates in real time (via SSE)."""
+  """
+  Stream battle state updates in real time (via SSE).
+  """
   battleUpdates(battleId: ID!): BattleUpdate!
 }

@@ -13,10 +13,7 @@ interface BuildContextOptions {
   prisma: PrismaClient;
 }
 
-export async function buildContext({
-  request,
-  prisma,
-}: BuildContextOptions): Promise<Context> {
+export async function buildContext({ request, prisma }: BuildContextOptions): Promise<Context> {
   const cookieHeader = request.headers.get("cookie");
   const token = getSessionToken(cookieHeader);
   const trainerId = token ? verifySession(token) : null;
