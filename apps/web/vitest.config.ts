@@ -15,6 +15,7 @@ export default defineConfig({
     alias: {
       "@/graphql": path.resolve(import.meta.dirname, "graphql"),
       "@/lib": path.resolve(import.meta.dirname, "lib"),
+      "@/components": path.resolve(import.meta.dirname, "components"),
       "@/generated": path.resolve(import.meta.dirname, "generated"),
       // Force a single graphql instance across all ESM/CJS boundaries in tests
       graphql: path.resolve(import.meta.dirname, "node_modules/graphql/index.js"),
