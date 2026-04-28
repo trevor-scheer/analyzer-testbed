@@ -3,7 +3,9 @@
 projects:
   web:
     schema: "apps/web/graphql/*.graphql"
-    documents: "apps/web/**/*.{ts,tsx,graphql}"
+    documents:
+      - "apps/web/**/*.{ts,tsx}"
+      - "apps/web/graphql/operations/**/*.graphql"
     extensions:
       lint:
         rules:
