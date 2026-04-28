@@ -28,17 +28,13 @@ test.describe("PokéForge happy path", () => {
     await expect(page.getByRole("heading", { name: "My Teams" })).toBeVisible();
   });
 
-  test("visits create team page and sees Pokémon browse grid", async ({
-    page,
-  }) => {
+  test("visits create team page and sees Pokémon browse grid", async ({ page }) => {
     await page.goto("/sign-in");
     await page.fill('input[id="name"]', "TestTrainer");
     await page.click('button[type="submit"]');
 
     await page.goto("/teams/new");
-    await expect(
-      page.getByRole("heading", { name: "Create Team" })
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Create Team" })).toBeVisible();
 
     // Wait for Pokémon browse grid to load
     await expect(page.locator(".grid > button").first()).toBeVisible({
@@ -48,9 +44,7 @@ test.describe("PokéForge happy path", () => {
 
   test("visits battle start page", async ({ page }) => {
     await page.goto("/battle/new");
-    await expect(
-      page.getByRole("heading", { name: "Start Battle" })
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Start Battle" })).toBeVisible();
     // Team select dropdowns are present
     await expect(page.getByLabel("Your Team")).toBeVisible();
     await expect(page.getByLabel("Opponent Team")).toBeVisible();

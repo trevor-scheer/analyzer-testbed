@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  buildOptimisticFavorite,
-  buildOptimisticUnfavorite,
-} from "@/lib/apollo/optimisticHelpers";
+import { buildOptimisticFavorite, buildOptimisticUnfavorite } from "@/lib/apollo/optimisticHelpers";
 
 describe("buildOptimisticFavorite", () => {
   it("returns the correct optimistic mutation shape for favorite", () => {

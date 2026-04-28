@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 
 const SIGN_IN = gql`
-  mutation SignIn($name: String!) {
-    signIn(name: $name) {
-      id
-      name
+  mutation SignIn($input: SignInInput!) {
+    signIn(input: $input) {
+      trainer {
+        id
+        name
+      }
     }
   }
 `;
@@ -29,7 +31,7 @@ export default function SignInPage() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim()) return;
-    signIn({ variables: { name: name.trim() } });
+    signIn({ variables: { input: { name: name.trim() } } });
   }
 
   return (

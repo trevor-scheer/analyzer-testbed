@@ -547,6 +547,242 @@ export type UpdateTeamInput = {
   teamId: Scalars["ID"]["input"];
 };
 
+export type BattleByIdQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+}>;
+
+export type BattleByIdQuery = {
+  __typename?: "Query";
+  battle?: {
+    __typename?: "Battle";
+    id: string;
+    status: BattleStatus;
+    teamA: {
+      __typename?: "Team";
+      id: string;
+      slots: Array<{
+        __typename?: "TeamSlot";
+        id: string;
+        pokemon: { __typename?: "Pokemon"; id: string; name: string };
+        moves: Array<
+          | { __typename?: "PhysicalMove"; id: string; name: string }
+          | { __typename?: "SpecialMove"; id: string; name: string }
+          | { __typename?: "StatusMove"; id: string; name: string }
+        >;
+      }>;
+    };
+  } | null;
+};
+
+export type MyTeamsForBattleQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MyTeamsForBattleQuery = {
+  __typename?: "Query";
+  viewer?: {
+    __typename?: "Trainer";
+    id: string;
+    teams: Array<{ __typename?: "Team"; id: string; name: string }>;
+  } | null;
+};
+
+export type StartBattleMutationVariables = Exact<{
+  input: StartBattleInput;
+}>;
+
+export type StartBattleMutation = {
+  __typename?: "Mutation";
+  startBattle: { __typename?: "BattlePayload"; battle: { __typename?: "Battle"; id: string } };
+};
+
+export type PokemonsQueryVariables = Exact<{
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  filter?: InputMaybe<PokemonFilter>;
+}>;
+
+export type PokemonsQuery = {
+  __typename?: "Query";
+  pokemons: {
+    __typename?: "PokemonConnection";
+    pageInfo: { __typename?: "PageInfo"; hasNextPage: boolean; endCursor?: string | null };
+    edges: Array<{
+      __typename?: "PokemonEdge";
+      cursor: string;
+      node: {
+        __typename?: "Pokemon";
+        id: string;
+        name: string;
+        pokedexNumber: number;
+        types: Array<PokemonType>;
+        baseStats: {
+          __typename?: "Stats";
+          hp: number;
+          attack: number;
+          defense: number;
+          speed: number;
+        };
+      };
+    }>;
+  };
+};
+
+export type GetPokemonQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+}>;
+
+export type GetPokemonQuery = {
+  __typename?: "Query";
+  pokemon?: {
+    __typename?: "Pokemon";
+    flavorText: string;
+    height: number;
+    weight: number;
+    captureRate?: number | null;
+    encounterRate: number;
+    id: string;
+    name: string;
+    pokedexNumber: number;
+    types: Array<PokemonType>;
+    abilities: Array<{
+      __typename?: "Ability";
+      name: string;
+      isHidden: boolean;
+      description: string;
+    }>;
+    moves: Array<
+      | {
+          __typename?: "PhysicalMove";
+          id: string;
+          name: string;
+          power?: number | null;
+          accuracy?: number | null;
+          pp: number;
+        }
+      | {
+          __typename?: "SpecialMove";
+          id: string;
+          name: string;
+          power?: number | null;
+          accuracy?: number | null;
+          pp: number;
+        }
+      | {
+          __typename?: "StatusMove";
+          id: string;
+          name: string;
+          accuracy?: number | null;
+          pp: number;
+          inflicts?: string | null;
+        }
+    >;
+    evolutionChain: Array<{
+      __typename?: "EvolutionStage";
+      minLevel?: number | null;
+      pokemon: { __typename?: "Pokemon"; id: string; name: string; pokedexNumber: number };
+    }>;
+    baseStats: {
+      __typename?: "Stats";
+      hp: number;
+      attack: number;
+      defense: number;
+      specialAttack: number;
+      specialDefense: number;
+      speed: number;
+    };
+  } | null;
+};
+
+export type GetTypeEffectivenessQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTypeEffectivenessQuery = {
+  __typename?: "Query";
+  typeEffectiveness: Array<{
+    __typename?: "TypeEffectiveness";
+    attacker: PokemonType;
+    multiplier: number;
+  }>;
+};
+
+export type PokemonsPrefetchQueryVariables = Exact<{
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type PokemonsPrefetchQuery = {
+  __typename?: "Query";
+  pokemons: {
+    __typename?: "PokemonConnection";
+    pageInfo: { __typename?: "PageInfo"; hasNextPage: boolean; endCursor?: string | null };
+    edges: Array<{
+      __typename?: "PokemonEdge";
+      cursor: string;
+      node: {
+        __typename?: "Pokemon";
+        id: string;
+        name: string;
+        pokedexNumber: number;
+        types: Array<PokemonType>;
+        baseStats: {
+          __typename?: "Stats";
+          hp: number;
+          attack: number;
+          defense: number;
+          speed: number;
+        };
+      };
+    }>;
+  };
+};
+
+export type SignInMutationVariables = Exact<{
+  input: SignInInput;
+}>;
+
+export type SignInMutation = {
+  __typename?: "Mutation";
+  signIn: {
+    __typename?: "AuthPayload";
+    trainer: { __typename?: "Trainer"; id: string; name: string };
+  };
+};
+
+export type MyTeamsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MyTeamsQuery = {
+  __typename?: "Query";
+  viewer?: {
+    __typename?: "Trainer";
+    id: string;
+    teams: Array<{
+      __typename?: "Team";
+      id: string;
+      name: string;
+      createdAt: Date | string;
+      updatedAt: Date | string;
+      owner: { __typename?: "Trainer"; id: string; name: string };
+      slots: Array<{
+        __typename?: "TeamSlot";
+        id: string;
+        nickname?: string | null;
+        level: number;
+        pokemon: {
+          __typename?: "Pokemon";
+          id: string;
+          name: string;
+          pokedexNumber: number;
+          types: Array<PokemonType>;
+          baseStats: {
+            __typename?: "Stats";
+            hp: number;
+            attack: number;
+            defense: number;
+            speed: number;
+          };
+        };
+      }>;
+    }>;
+  } | null;
+};
+
 export type PokemonCardFragment = {
   __typename?: "Pokemon";
   id: string;
@@ -1097,6 +1333,803 @@ export const TeamSlotFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<TeamSlotFragment, unknown>;
+export const BattleByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "BattleById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "battle" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: { kind: "Variable", name: { kind: "Name", value: "id" } },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                { kind: "Field", name: { kind: "Name", value: "status" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "teamA" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "slots" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            { kind: "Field", name: { kind: "Name", value: "id" } },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "pokemon" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                                  { kind: "Field", name: { kind: "Name", value: "name" } },
+                                ],
+                              },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "moves" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "InlineFragment",
+                                    typeCondition: {
+                                      kind: "NamedType",
+                                      name: { kind: "Name", value: "PhysicalMove" },
+                                    },
+                                    selectionSet: {
+                                      kind: "SelectionSet",
+                                      selections: [
+                                        { kind: "Field", name: { kind: "Name", value: "id" } },
+                                        { kind: "Field", name: { kind: "Name", value: "name" } },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: "InlineFragment",
+                                    typeCondition: {
+                                      kind: "NamedType",
+                                      name: { kind: "Name", value: "SpecialMove" },
+                                    },
+                                    selectionSet: {
+                                      kind: "SelectionSet",
+                                      selections: [
+                                        { kind: "Field", name: { kind: "Name", value: "id" } },
+                                        { kind: "Field", name: { kind: "Name", value: "name" } },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: "InlineFragment",
+                                    typeCondition: {
+                                      kind: "NamedType",
+                                      name: { kind: "Name", value: "StatusMove" },
+                                    },
+                                    selectionSet: {
+                                      kind: "SelectionSet",
+                                      selections: [
+                                        { kind: "Field", name: { kind: "Name", value: "id" } },
+                                        { kind: "Field", name: { kind: "Name", value: "name" } },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<BattleByIdQuery, BattleByIdQueryVariables>;
+export const MyTeamsForBattleDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "MyTeamsForBattle" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "viewer" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "teams" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MyTeamsForBattleQuery, MyTeamsForBattleQueryVariables>;
+export const StartBattleDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "StartBattle" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "StartBattleInput" } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "startBattle" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "battle" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [{ kind: "Field", name: { kind: "Name", value: "id" } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<StartBattleMutation, StartBattleMutationVariables>;
+export const PokemonsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "Pokemons" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "after" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "first" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "filter" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "PokemonFilter" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "pokemons" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "after" },
+                value: { kind: "Variable", name: { kind: "Name", value: "after" } },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "first" },
+                value: { kind: "Variable", name: { kind: "Name", value: "first" } },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "filter" },
+                value: { kind: "Variable", name: { kind: "Name", value: "filter" } },
+              },
+            ],
+            directives: [
+              {
+                kind: "Directive",
+                name: { kind: "Name", value: "connection" },
+                arguments: [
+                  {
+                    kind: "Argument",
+                    name: { kind: "Name", value: "key" },
+                    value: { kind: "StringValue", value: "pokedex", block: false },
+                  },
+                ],
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pageInfo" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "hasNextPage" } },
+                      { kind: "Field", name: { kind: "Name", value: "endCursor" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "cursor" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "PokemonCard" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PokemonCard" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Pokemon" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "pokedexNumber" } },
+          { kind: "Field", name: { kind: "Name", value: "types" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "baseStats" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "hp" } },
+                { kind: "Field", name: { kind: "Name", value: "attack" } },
+                { kind: "Field", name: { kind: "Name", value: "defense" } },
+                { kind: "Field", name: { kind: "Name", value: "speed" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PokemonsQuery, PokemonsQueryVariables>;
+export const GetPokemonDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetPokemon" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "pokemon" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: { kind: "Variable", name: { kind: "Name", value: "id" } },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "FragmentSpread", name: { kind: "Name", value: "PokemonDetail" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PokemonCard" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Pokemon" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "pokedexNumber" } },
+          { kind: "Field", name: { kind: "Name", value: "types" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "baseStats" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "hp" } },
+                { kind: "Field", name: { kind: "Name", value: "attack" } },
+                { kind: "Field", name: { kind: "Name", value: "defense" } },
+                { kind: "Field", name: { kind: "Name", value: "speed" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PokemonDetail" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Pokemon" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "FragmentSpread", name: { kind: "Name", value: "PokemonCard" } },
+          { kind: "Field", name: { kind: "Name", value: "flavorText" } },
+          { kind: "Field", name: { kind: "Name", value: "height" } },
+          { kind: "Field", name: { kind: "Name", value: "weight" } },
+          { kind: "Field", name: { kind: "Name", value: "captureRate" } },
+          { kind: "Field", name: { kind: "Name", value: "encounterRate" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "abilities" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "name" } },
+                { kind: "Field", name: { kind: "Name", value: "isHidden" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "moves" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "InlineFragment",
+                  typeCondition: {
+                    kind: "NamedType",
+                    name: { kind: "Name", value: "PhysicalMove" },
+                  },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "power" } },
+                      { kind: "Field", name: { kind: "Name", value: "accuracy" } },
+                      { kind: "Field", name: { kind: "Name", value: "pp" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "InlineFragment",
+                  typeCondition: {
+                    kind: "NamedType",
+                    name: { kind: "Name", value: "SpecialMove" },
+                  },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "power" } },
+                      { kind: "Field", name: { kind: "Name", value: "accuracy" } },
+                      { kind: "Field", name: { kind: "Name", value: "pp" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "InlineFragment",
+                  typeCondition: { kind: "NamedType", name: { kind: "Name", value: "StatusMove" } },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "accuracy" } },
+                      { kind: "Field", name: { kind: "Name", value: "pp" } },
+                      { kind: "Field", name: { kind: "Name", value: "inflicts" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "evolutionChain" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "minLevel" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pokemon" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "pokedexNumber" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "baseStats" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "hp" } },
+                { kind: "Field", name: { kind: "Name", value: "attack" } },
+                { kind: "Field", name: { kind: "Name", value: "defense" } },
+                { kind: "Field", name: { kind: "Name", value: "specialAttack" } },
+                { kind: "Field", name: { kind: "Name", value: "specialDefense" } },
+                { kind: "Field", name: { kind: "Name", value: "speed" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetPokemonQuery, GetPokemonQueryVariables>;
+export const GetTypeEffectivenessDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetTypeEffectiveness" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "typeEffectiveness" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "attacker" } },
+                { kind: "Field", name: { kind: "Name", value: "multiplier" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetTypeEffectivenessQuery, GetTypeEffectivenessQueryVariables>;
+export const PokemonsPrefetchDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "PokemonsPrefetch" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "first" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "pokemons" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "first" },
+                value: { kind: "Variable", name: { kind: "Name", value: "first" } },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pageInfo" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "hasNextPage" } },
+                      { kind: "Field", name: { kind: "Name", value: "endCursor" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "edges" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "cursor" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "node" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "PokemonCard" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PokemonCard" },
+      typeCondition: { kind: "NamedType", name: { kind: "Name", value: "Pokemon" } },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "pokedexNumber" } },
+          { kind: "Field", name: { kind: "Name", value: "types" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "baseStats" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "hp" } },
+                { kind: "Field", name: { kind: "Name", value: "attack" } },
+                { kind: "Field", name: { kind: "Name", value: "defense" } },
+                { kind: "Field", name: { kind: "Name", value: "speed" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<PokemonsPrefetchQuery, PokemonsPrefetchQueryVariables>;
+export const SignInDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "SignIn" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "input" } },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "SignInInput" } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "signIn" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "input" },
+                value: { kind: "Variable", name: { kind: "Name", value: "input" } },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "trainer" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SignInMutation, SignInMutationVariables>;
+export const MyTeamsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "MyTeams" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "viewer" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "teams" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "createdAt" } },
+                      { kind: "Field", name: { kind: "Name", value: "updatedAt" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "owner" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            { kind: "Field", name: { kind: "Name", value: "id" } },
+                            { kind: "Field", name: { kind: "Name", value: "name" } },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "slots" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            { kind: "Field", name: { kind: "Name", value: "id" } },
+                            { kind: "Field", name: { kind: "Name", value: "nickname" } },
+                            { kind: "Field", name: { kind: "Name", value: "level" } },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "pokemon" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  { kind: "Field", name: { kind: "Name", value: "id" } },
+                                  { kind: "Field", name: { kind: "Name", value: "name" } },
+                                  { kind: "Field", name: { kind: "Name", value: "pokedexNumber" } },
+                                  { kind: "Field", name: { kind: "Name", value: "types" } },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "baseStats" },
+                                    selectionSet: {
+                                      kind: "SelectionSet",
+                                      selections: [
+                                        { kind: "Field", name: { kind: "Name", value: "hp" } },
+                                        { kind: "Field", name: { kind: "Name", value: "attack" } },
+                                        { kind: "Field", name: { kind: "Name", value: "defense" } },
+                                        { kind: "Field", name: { kind: "Name", value: "speed" } },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<MyTeamsQuery, MyTeamsQueryVariables>;
 export const BattleUpdatesDocument = {
   kind: "Document",
   definitions: [

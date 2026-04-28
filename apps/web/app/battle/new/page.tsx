@@ -15,12 +15,15 @@ interface TeamsData {
 }
 
 interface StartBattleData {
-  startBattle: { id: string };
+  startBattle: { battle: { id: string } };
 }
 
 interface StartBattleVars {
-  myTeamId: string;
-  opponentTeamId: string;
+  input: {
+    myTeamId: string;
+    opponentTeamId: string;
+    opponentId: string;
+  };
 }
 
 const MY_TEAMS_FOR_BATTLE = gql`
@@ -36,9 +39,11 @@ const MY_TEAMS_FOR_BATTLE = gql`
 ` as DocumentNode;
 
 const START_BATTLE = gql`
-  mutation StartBattle($myTeamId: ID!, $opponentTeamId: ID!) {
-    startBattle(myTeamId: $myTeamId, opponentTeamId: $opponentTeamId) {
-      id
+  mutation StartBattle($input: StartBattleInput!) {
+    startBattle(input: $input) {
+      battle {
+        id
+      }
     }
   }
 ` as DocumentNode;
@@ -55,7 +60,7 @@ export default function NewBattlePage() {
     START_BATTLE,
     {
       onCompleted(data) {
-        router.push(`/battle/${data.startBattle.id}`);
+        router.push(`/battle/${data.startBattle.battle.id}`);
       },
     },
   );
@@ -105,7 +110,13 @@ export default function NewBattlePage() {
           </select>
         </div>
         <Button
-          onClick={() => startBattle({ variables: { myTeamId, opponentTeamId } })}
+          onClick={() =>
+            startBattle({
+              variables: {
+                input: { myTeamId, opponentTeamId, opponentId: opponentTeamId },
+              },
+            })
+          }
           loading={starting}
           disabled={!myTeamId || !opponentTeamId}
         >

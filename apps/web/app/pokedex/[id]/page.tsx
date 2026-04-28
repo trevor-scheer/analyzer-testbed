@@ -12,35 +12,49 @@ const GET_POKEMON = gql`
   query GetPokemon($id: ID!) {
     pokemon(id: $id) {
       ...PokemonDetail
-      typeEffectiveness {
-        attacker
-        multiplier
-      }
     }
   }
   ${POKEMON_DETAIL_FRAGMENT}
 `;
 
+const GET_TYPE_EFFECTIVENESS = gql`
+  query TypeEffectivenessAll {
+    typeEffectiveness {
+      attacker
+      multiplier
+    }
+  }
+`;
+
 type GetPokemonData = {
-  pokemon: (PokemonDetailFragment & { typeEffectiveness: TypeEffectiveness[] }) | null;
+  pokemon: PokemonDetailFragment | null;
+};
+
+type GetTypeEffectivenessData = {
+  typeEffectiveness: TypeEffectiveness[];
 };
 
 export default async function PokemonDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const { data } = await getClient().query<GetPokemonData>({
-    query: GET_POKEMON,
-    variables: { id },
-  });
+  const [pokemonResult, effectivenessResult] = await Promise.all([
+    getClient().query<GetPokemonData>({
+      query: GET_POKEMON,
+      variables: { id },
+    }),
+    getClient().query<GetTypeEffectivenessData>({
+      query: GET_TYPE_EFFECTIVENESS,
+    }),
+  ]);
 
-  if (!data?.pokemon) notFound();
+  if (!pokemonResult.data?.pokemon) notFound();
 
   return (
     <div className="flex flex-col gap-8">
-      <PokemonDetail pokemon={data.pokemon} />
+      <PokemonDetail pokemon={pokemonResult.data.pokemon} />
       <div>
         <h2 className="text-lg font-semibold mb-4">Type Effectiveness</h2>
-        <TypeEffectivenessChart effectiveness={data.pokemon.typeEffectiveness} />
+        <TypeEffectivenessChart effectiveness={effectivenessResult.data?.typeEffectiveness ?? []} />
       </div>
     </div>
   );
