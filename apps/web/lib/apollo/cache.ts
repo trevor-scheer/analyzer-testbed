@@ -15,10 +15,7 @@ export function makeCache() {
               }
               return {
                 ...incoming,
-                edges: [
-                  ...(existing?.edges ?? []),
-                  ...(incoming.edges ?? []),
-                ],
+                edges: [...(existing?.edges ?? []), ...(incoming.edges ?? [])],
               };
             },
           },
