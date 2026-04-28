@@ -1,0 +1,28 @@
+version: 2
+
+updates:
+  # npm / pnpm workspace packages
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      graphql-analyzer:
+        patterns:
+          - "@graphql-analyzer/*"
+      typescript-eslint:
+        patterns:
+          - "@typescript-eslint/*"
+    labels:
+      - "dependencies"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "ci"
