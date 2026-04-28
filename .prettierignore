@@ -1,1 +1,5 @@
 pnpm-lock.yaml
+
+# Design specs are faithful copies from the graphql-analyzer repo —
+# don't reformat them so updates stay byte-comparable to the source.
+docs/

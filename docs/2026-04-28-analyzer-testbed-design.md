@@ -11,7 +11,7 @@ Create a new public GitHub repository at `trevor-scheer/analyzer-testbed` that s
 2. **Dogfood** — exercises the LSP, CLI, ESLint plugin, MCP server, VS Code extension, and Claude Code LSP plugin end-to-end so we catch regressions before users do.
 3. **Repro substrate** — provides ready-made fixtures and scripts users can run to reproduce reported issues, plus a starting point for new bug reports.
 
-The repo replaces the dev-oriented role of `test-workspace/` for _external_ purposes only; `test-workspace/` continues to exist for internal development.
+The repo replaces the dev-oriented role of `test-workspace/` for *external* purposes only; `test-workspace/` continues to exist for internal development.
 
 The primary app uses a **Pokémon theme** — Pokédex browsing, team building, and turn-based battle simulation — chosen because the domain has enough natural complexity (interfaces, unions, pagination, mutations, subscriptions) to exercise the analyzer without feeling contrived.
 
@@ -98,7 +98,7 @@ apps/web/
 - **Read paths**: RSC + server-side Apollo for initial render, hydrated to client Apollo for interactivity (pagination, mutations).
 - **Mutations**: optimistic updates against the Apollo cache for `createTeam`, `favoritePokemon`, etc.
 - **Subscriptions**: battle updates over SSE (Yoga's built-in transport — no extra infrastructure).
-- **Embedded GraphQL**: a mix of `gql\`...\``tagged templates inside`.tsx`files and standalone`.graphql` operation files, so the LSP/extractor sees both file shapes.
+- **Embedded GraphQL**: a mix of `gql\`...\`` tagged templates inside `.tsx` files and standalone `.graphql` operation files, so the LSP/extractor sees both file shapes.
 
 ## Schema Design
 
@@ -139,14 +139,14 @@ Schema-first SDL, ~30–40 types, split across three files in `apps/web/graphql/
 
 All Pokémon-themed examples point their `graphql-config` schema at `apps/web/graphql/` (relative path) — they don't run their own server. This keeps maintenance light: one schema, many client demos.
 
-| Example                  | Stack                            | Demonstrates                                                                                                                                                 |
-| ------------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `examples/relay-app`     | Vite + React + Relay 17          | `@refetchable`, `@connection`, fragment composition, Relay-compiler artifacts                                                                                |
-| `examples/svelte-app`    | SvelteKit + houdini              | `.svelte` SFC extraction, embedded GraphQL inside `<script lang="ts">`                                                                                       |
-| `examples/vue-app`       | Vue 3 + `@vue/apollo-composable` | `.vue` SFC extraction, Composition API patterns                                                                                                              |
-| `examples/astro-app`     | Astro + urql                     | `.astro` files with frontmatter GraphQL, urql instead of Apollo                                                                                              |
-| `examples/remote-schema` | Plain TS script                  | graphql-config pointed at a public introspection endpoint (e.g., `countries.trevorblades.com`); no local SDL. **Non-Pokémon** — we don't host a Pokémon API. |
-| `examples/multi-project` | Plain TS                         | One workspace with two `projects:` in its own `.graphqlrc.yaml` (Pokédex + tiny shop schema), demonstrating per-project lint config overrides                |
+| Example | Stack | Demonstrates |
+|---|---|---|
+| `examples/relay-app` | Vite + React + Relay 17 | `@refetchable`, `@connection`, fragment composition, Relay-compiler artifacts |
+| `examples/svelte-app` | SvelteKit + houdini | `.svelte` SFC extraction, embedded GraphQL inside `<script lang="ts">` |
+| `examples/vue-app` | Vue 3 + `@vue/apollo-composable` | `.vue` SFC extraction, Composition API patterns |
+| `examples/astro-app` | Astro + urql | `.astro` files with frontmatter GraphQL, urql instead of Apollo |
+| `examples/remote-schema` | Plain TS script | graphql-config pointed at a public introspection endpoint (e.g., `countries.trevorblades.com`); no local SDL. **Non-Pokémon** — we don't host a Pokémon API. |
+| `examples/multi-project` | Plain TS | One workspace with two `projects:` in its own `.graphqlrc.yaml` (Pokédex + tiny shop schema), demonstrating per-project lint config overrides |
 
 The `remote-schema` and `multi-project` entries are intentionally the odd ones out — they exist to demonstrate config patterns, not framework integrations.
 
@@ -182,7 +182,6 @@ This means a fresh clone + Claude Code session has the full `LSP` tool (goto-def
 Single workflow, two jobs:
 
 **`validate`** (runs on every push/PR):
-
 - `pnpm install --frozen-lockfile`
 - `pnpm graphql-cli check` against every project
 - `pnpm eslint .` (whole repo)
@@ -190,7 +189,6 @@ Single workflow, two jobs:
 - `pnpm --filter @analyzer-testbed/web prisma generate && pnpm --filter @analyzer-testbed/web test`
 
 **`expect-failure`** (runs on every push/PR):
-
 - `pnpm graphql-cli check fixtures/intentional-errors/` and **expects non-zero exit** — proves the CLI reports problems correctly.
 
 ### `fixtures/intentional-errors/`
@@ -209,13 +207,13 @@ Each has a `README.md` explaining what should fire and what the expected output 
 
 Each script is idempotent and self-documenting via `--help`.
 
-| Script                                      | What it does                                                                                                                                                                     |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Script | What it does |
+|---|---|
 | `scripts/demo-failing-pr.sh <fixture-name>` | Creates branch `demo/<fixture>-<timestamp>`, copies the fixture into `apps/web/graphql/`, commits, pushes, opens a draft PR via `gh`. Prints the PR URL. CI goes red — expected. |
-| `scripts/demo-cli-output.sh [fixture-name]` | Runs `graphql-cli check` against one or all fixtures locally with colored output, headers per case. No git side effects.                                                         |
-| `scripts/demo-lsp.sh <feature>`             | Opens VS Code at a specific file/line for a chosen feature (`hover`, `goto-def`, `find-refs`, `diagnostic`, `completion`). Each target line has a comment explaining what to do. |
-| `scripts/demo-mcp.sh`                       | Prints the exact `claude` invocation to use in this directory plus suggested prompts (e.g., "ask Claude to find all uses of `Pokemon.captureRate`").                             |
-| `scripts/cleanup-demos.sh`                  | Lists and optionally closes/deletes any `demo/*` branches and PRs created by the scripts.                                                                                        |
+| `scripts/demo-cli-output.sh [fixture-name]` | Runs `graphql-cli check` against one or all fixtures locally with colored output, headers per case. No git side effects. |
+| `scripts/demo-lsp.sh <feature>` | Opens VS Code at a specific file/line for a chosen feature (`hover`, `goto-def`, `find-refs`, `diagnostic`, `completion`). Each target line has a comment explaining what to do. |
+| `scripts/demo-mcp.sh` | Prints the exact `claude` invocation to use in this directory plus suggested prompts (e.g., "ask Claude to find all uses of `Pokemon.captureRate`"). |
+| `scripts/cleanup-demos.sh` | Lists and optionally closes/deletes any `demo/*` branches and PRs created by the scripts. |
 
 ### README structure
 
