@@ -45,6 +45,21 @@ const config = [
       ...graphqlAnalyzer.configs["flat/schema-recommended"].rules,
     },
   },
+
+  // Embedded GraphQL inside JS/TS via the plugin's processor — picks up
+  // `gql\`...\`` tagged templates and reports diagnostics at their original
+  // source position. Don't set `parser` here; the processor extracts before
+  // the host language's default parser runs.
+  {
+    files: ["**/*.{ts,tsx,js,jsx,mjs,cjs}"],
+    plugins: {
+      "@graphql-analyzer": graphqlAnalyzer,
+    },
+    processor: graphqlAnalyzer.processor,
+    rules: {
+      ...graphqlAnalyzer.configs["flat/operations-recommended"].rules,
+    },
+  },
 ];
 
 export default config;
