@@ -66,10 +66,40 @@ const config = [
     },
   },
 
+  // Virtual .graphql documents extracted by the processor from fragment TS
+  // files live at paths like `graphql/fragments/Foo.fragment.ts/*.graphql`.
+  // These fragments are exported and consumed via JS import in other files;
+  // require-selections and no-unused-fragments cannot see cross-file usage.
+  {
+    files: ["**/graphql/fragments/*.ts/*.graphql"],
+    rules: {
+      "@graphql-analyzer/no-unused-fragments": "off",
+      // require-selections cannot resolve fragment spreads across files
+      "@graphql-analyzer/require-selections": "off",
+    },
+  },
+
+  // Standalone .graphql operation files reference fragments defined in .ts
+  // files. The linter cannot resolve cross-format fragment definitions, so
+  // require-selections produces false positives when id is provided by a
+  // fragment spread whose definition lives in a TS gql template.
+  {
+    files: ["**/graphql/operations/**/*.graphql"],
+    rules: {
+      "@graphql-analyzer/require-selections": "off",
+    },
+  },
+
   // Embedded GraphQL inside JS/TS via the plugin's processor — picks up
   // `gql\`...\`` tagged templates and reports diagnostics at their original
   // source position. Don't set `parser` here; the processor extracts before
   // the host language's default parser runs.
+  //
+  // `no-unused-fragments` is disabled for TS/TSX files because fragments
+  // defined here are exported constants consumed via JS import in other files.
+  // The processor analyses each file in isolation and cannot see cross-file
+  // usage, so the rule produces false positives for every fragment definition
+  // that is only spread in a different source file.
   {
     files: ["**/*.{ts,tsx,js,jsx,mjs,cjs}"],
     plugins: {
@@ -78,6 +108,7 @@ const config = [
     processor: graphqlAnalyzer.processor,
     rules: {
       ...graphqlAnalyzer.configs["flat/operations-recommended"].rules,
+      "@graphql-analyzer/no-unused-fragments": "off",
     },
   },
 ];

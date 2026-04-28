@@ -2,9 +2,9 @@ import { gql } from "@apollo/client";
 import { POKEMON_CARD_FRAGMENT } from "./PokemonCard.fragment";
 
 export const POKEMON_DETAIL_FRAGMENT = gql`
-  fragment PokemonDetailFragment on Pokemon {
-    ...PokemonCardFragment
-    description
+  fragment PokemonDetail on Pokemon {
+    ...PokemonCard
+    flavorText
     height
     weight
     # captureRate is deprecated in favor of encounterRate — intentional usage
@@ -36,19 +36,18 @@ export const POKEMON_DETAIL_FRAGMENT = gql`
         name
         accuracy
         pp
-        effect
+        inflicts
       }
     }
-    evolutions {
-      stage
+    evolutionChain {
+      minLevel
       pokemon {
         id
         name
-        sprite
-        nationalDexNumber
+        pokedexNumber
       }
     }
-    stats {
+    baseStats {
       hp
       attack
       defense

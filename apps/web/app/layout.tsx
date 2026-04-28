@@ -8,19 +8,13 @@ export const metadata: Metadata = {
   description: "GraphQL Analyzer demo app — Pokémon team builder",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
         <AppApolloProvider>
           <header className="border-b border-[var(--border)] bg-[var(--surface)] px-6 py-3 flex items-center gap-8">
-            <span className="text-lg font-bold text-[var(--accent)]">
-              PokéForge
-            </span>
+            <span className="text-lg font-bold text-[var(--accent)]">PokéForge</span>
             <nav className="flex gap-6 text-sm text-[var(--text-muted)]">
               <Link href="/pokedex" className="hover:text-[var(--text)]">
                 Pokédex
@@ -36,9 +30,7 @@ export default function RootLayout({
               </Link>
             </nav>
           </header>
-          <main className="min-h-screen px-6 py-8 max-w-6xl mx-auto">
-            {children}
-          </main>
+          <main className="min-h-screen px-6 py-8 max-w-6xl mx-auto">{children}</main>
         </AppApolloProvider>
       </body>
     </html>

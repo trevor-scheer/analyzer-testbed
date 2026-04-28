@@ -9,7 +9,7 @@ query TeamDetail($id: ID!) {
       name
     }
     slots {
-      ...TeamSlotFragment
+      ...TeamSlot
     }
   }
 }

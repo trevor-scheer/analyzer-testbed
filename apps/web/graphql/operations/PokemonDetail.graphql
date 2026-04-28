@@ -1,5 +1,5 @@
 query PokemonDetail($id: ID!) {
   pokemon(id: $id) {
-    ...PokemonDetailFragment
+    ...PokemonDetail
   }
 }

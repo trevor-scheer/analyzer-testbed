@@ -8,14 +8,7 @@ export function Spinner({ size = 24 }: { size?: number }) {
       className="animate-spin"
       aria-label="Loading"
     >
-      <circle
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeOpacity="0.25"
-      />
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.25" />
       <path
         d="M12 2a10 10 0 0 1 10 10"
         stroke="currentColor"

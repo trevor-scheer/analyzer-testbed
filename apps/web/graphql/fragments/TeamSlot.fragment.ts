@@ -2,9 +2,10 @@ import { gql } from "@apollo/client";
 import { POKEMON_CARD_FRAGMENT } from "./PokemonCard.fragment";
 
 export const TEAM_SLOT_FRAGMENT = gql`
-  fragment TeamSlotFragment on TeamSlot {
+  fragment TeamSlot on TeamSlot {
+    id
     pokemon {
-      ...PokemonCardFragment
+      ...PokemonCard
     }
     nickname
     level
@@ -25,7 +26,7 @@ export const TEAM_SLOT_FRAGMENT = gql`
         id
         name
         pp
-        effect
+        inflicts
       }
     }
   }

@@ -1,14 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const POKEMON_CARD_FRAGMENT = gql`
-  fragment PokemonCardFragment on Pokemon {
+  fragment PokemonCard on Pokemon {
     id
     name
-    nationalDexNumber
+    pokedexNumber
     types
-    sprite
-    isFavorite
-    stats {
+    baseStats {
       hp
       attack
       defense

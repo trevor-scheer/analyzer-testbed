@@ -1,17 +1,20 @@
 subscription BattleUpdates($battleId: ID!) {
   battleUpdates(battleId: $battleId) {
-    id
-    status
-    winner {
+    message
+    battle {
       id
-      name
+      status
+      winner {
+        id
+        name
+      }
     }
-    turns {
+    latestTurn {
       id
-      number
-      action {
+      turnNumber
+      actionA {
         ... on MoveAction {
-          pokemon {
+          sourcePokemon {
             id
             name
           }
@@ -29,7 +32,7 @@ subscription BattleUpdates($battleId: ID!) {
             ... on StatusMove {
               id
               name
-              effect
+              inflicts
             }
           }
           damage
@@ -39,10 +42,9 @@ subscription BattleUpdates($battleId: ID!) {
             id
             name
           }
-          incomingPokemon {
+          inPokemon {
             id
             name
-            sprite
           }
         }
         ... on ForfeitAction {
