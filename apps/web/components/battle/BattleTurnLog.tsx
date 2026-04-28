@@ -1,8 +1,6 @@
 import type { BattleUpdatesSubscription } from "@/graphql/generated/operations";
 
-type LatestTurn = NonNullable<
-  BattleUpdatesSubscription["battleUpdates"]["latestTurn"]
->;
+type LatestTurn = NonNullable<BattleUpdatesSubscription["battleUpdates"]["latestTurn"]>;
 
 function describeTurn(turn: LatestTurn): string {
   const action = turn.actionA;
@@ -21,9 +19,7 @@ function describeTurn(turn: LatestTurn): string {
 
 export function BattleTurnLog({ turns }: { turns: LatestTurn[] }) {
   if (turns.length === 0) {
-    return (
-      <p className="text-[var(--text-muted)] text-sm">Battle not yet started.</p>
-    );
+    return <p className="text-[var(--text-muted)] text-sm">Battle not yet started.</p>;
   }
   return (
     <ol className="flex flex-col gap-1">

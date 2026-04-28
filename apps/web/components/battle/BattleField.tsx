@@ -32,10 +32,9 @@ export function BattleField({
 }) {
   const [turns, setTurns] = useState<LatestTurn[]>([]);
 
-  const { data, loading } = useSubscription<BattleUpdatesSubscription>(
-    BattleUpdatesDocument,
-    { variables: { battleId } },
-  );
+  const { data, loading } = useSubscription<BattleUpdatesSubscription>(BattleUpdatesDocument, {
+    variables: { battleId },
+  });
 
   useEffect(() => {
     const turn = data?.battleUpdates?.latestTurn;
@@ -63,8 +62,7 @@ export function BattleField({
   }
 
   const isFinished =
-    battle?.status === BattleStatus.Completed ||
-    battle?.status === BattleStatus.Forfeited;
+    battle?.status === BattleStatus.Completed || battle?.status === BattleStatus.Forfeited;
 
   return (
     <div className="flex flex-col gap-6">
@@ -86,9 +84,7 @@ export function BattleField({
       </div>
 
       <div>
-        <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase mb-3">
-          Turn Log
-        </h2>
+        <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase mb-3">Turn Log</h2>
         <BattleTurnLog turns={turns} />
       </div>
     </div>

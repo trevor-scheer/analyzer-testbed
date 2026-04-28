@@ -125,10 +125,9 @@ export function TeamBuilder({
   const [name, setName] = useState(initialName);
   const [slots, setSlots] = useState<SlotDraft[]>(initialSlots);
 
-  const { data, loading: browsing } = useQuery<PokemonsBrowseData>(
-    POKEMONS_BROWSE,
-    { variables: { first: 24 } },
-  );
+  const { data, loading: browsing } = useQuery<PokemonsBrowseData>(POKEMONS_BROWSE, {
+    variables: { first: 24 },
+  });
 
   const makeOptimisticSlots = (): TeamSlotResult[] =>
     slots.map((s) => ({
@@ -137,54 +136,54 @@ export function TeamBuilder({
       pokemon: { __typename: "Pokemon" as const, id: s.pokemonId, name: "" },
     }));
 
-  const [createTeam, { loading: creating }] = useMutation<
-    CreateTeamData,
-    CreateTeamVars
-  >(CREATE_TEAM, {
-    update(cache, { data: result }) {
-      if (!result) return;
-      cache.modify({
-        fields: {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          viewer(existing: any) {
-            if (!existing) return existing;
-            return {
-              ...existing,
-              teams: [...(existing.teams ?? []), result.createTeam],
-            };
+  const [createTeam, { loading: creating }] = useMutation<CreateTeamData, CreateTeamVars>(
+    CREATE_TEAM,
+    {
+      update(cache, { data: result }) {
+        if (!result) return;
+        cache.modify({
+          fields: {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            viewer(existing: any) {
+              if (!existing) return existing;
+              return {
+                ...existing,
+                teams: [...(existing.teams ?? []), result.createTeam],
+              };
+            },
           },
+        });
+      },
+      optimisticResponse: {
+        createTeam: {
+          __typename: "Team",
+          id: `temp-${Date.now()}`,
+          name,
+          slots: makeOptimisticSlots(),
         },
-      });
-    },
-    optimisticResponse: {
-      createTeam: {
-        __typename: "Team",
-        id: `temp-${Date.now()}`,
-        name,
-        slots: makeOptimisticSlots(),
+      },
+      onCompleted(data) {
+        onSaved?.(data.createTeam.id);
       },
     },
-    onCompleted(data) {
-      onSaved?.(data.createTeam.id);
-    },
-  });
+  );
 
-  const [updateTeam, { loading: updating }] = useMutation<
-    UpdateTeamData,
-    UpdateTeamVars
-  >(UPDATE_TEAM, {
-    optimisticResponse: {
-      updateTeam: {
-        __typename: "Team",
-        id: teamId!,
-        name,
-        slots: makeOptimisticSlots(),
+  const [updateTeam, { loading: updating }] = useMutation<UpdateTeamData, UpdateTeamVars>(
+    UPDATE_TEAM,
+    {
+      optimisticResponse: {
+        updateTeam: {
+          __typename: "Team",
+          id: teamId!,
+          name,
+          slots: makeOptimisticSlots(),
+        },
+      },
+      onCompleted(data) {
+        onSaved?.(data.updateTeam.id);
       },
     },
-    onCompleted(data) {
-      onSaved?.(data.updateTeam.id);
-    },
-  });
+  );
 
   const saving = creating || updating;
 
@@ -206,8 +205,7 @@ export function TeamBuilder({
     }
   }
 
-  const pokemonList: PokemonCardFragment[] =
-    data?.pokemons?.edges?.map((e) => e.node) ?? [];
+  const pokemonList: PokemonCardFragment[] = data?.pokemons?.edges?.map((e) => e.node) ?? [];
 
   return (
     <div className="flex flex-col gap-6">
@@ -219,11 +217,7 @@ export function TeamBuilder({
           placeholder="Team name"
           className="rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent)]"
         />
-        <Button
-          onClick={handleSave}
-          loading={saving}
-          disabled={!name.trim() || slots.length === 0}
-        >
+        <Button onClick={handleSave} loading={saving} disabled={!name.trim() || slots.length === 0}>
           {teamId ? "Save Team" : "Create Team"}
         </Button>
       </div>
@@ -236,9 +230,7 @@ export function TeamBuilder({
             return (
               <button
                 key={s.pokemonId}
-                onClick={() =>
-                  setSlots((prev) => prev.filter((x) => x.pokemonId !== s.pokemonId))
-                }
+                onClick={() => setSlots((prev) => prev.filter((x) => x.pokemonId !== s.pokemonId))}
                 className="rounded-full bg-[var(--surface-2)] border border-[var(--border)] px-3 py-1 text-xs hover:border-red-500 hover:text-red-400 transition-colors"
               >
                 {p?.name ?? s.pokemonId} ×

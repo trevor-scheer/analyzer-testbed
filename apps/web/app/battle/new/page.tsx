@@ -51,14 +51,14 @@ export default function NewBattlePage() {
   const { data, loading } = useQuery<TeamsData>(MY_TEAMS_FOR_BATTLE);
   const teams = data?.viewer?.teams ?? [];
 
-  const [startBattle, { loading: starting }] = useMutation<
-    StartBattleData,
-    StartBattleVars
-  >(START_BATTLE, {
-    onCompleted(data) {
-      router.push(`/battle/${data.startBattle.id}`);
+  const [startBattle, { loading: starting }] = useMutation<StartBattleData, StartBattleVars>(
+    START_BATTLE,
+    {
+      onCompleted(data) {
+        router.push(`/battle/${data.startBattle.id}`);
+      },
     },
-  });
+  );
 
   if (loading) {
     return (
@@ -88,9 +88,7 @@ export default function NewBattlePage() {
           </select>
         </div>
         <div>
-          <label className="block text-sm text-[var(--text-muted)] mb-1">
-            Opponent Team
-          </label>
+          <label className="block text-sm text-[var(--text-muted)] mb-1">Opponent Team</label>
           <select
             value={opponentTeamId}
             onChange={(e) => setOpponentTeamId(e.target.value)}

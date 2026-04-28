@@ -3,11 +3,7 @@ import { TeamDetailDocument } from "@/graphql/generated/operations";
 import { TeamEditClient } from "./TeamEditClient";
 import { notFound } from "next/navigation";
 
-export default async function TeamEditPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function TeamEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const { data } = await getClient().query({
     query: TeamDetailDocument,
@@ -23,11 +19,7 @@ export default async function TeamEditPage({
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Edit Team</h1>
-      <TeamEditClient
-        teamId={id}
-        initialName={data.team.name}
-        initialSlots={initialSlots}
-      />
+      <TeamEditClient teamId={id} initialName={data.team.name} initialSlots={initialSlots} />
     </div>
   );
 }
