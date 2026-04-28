@@ -49,6 +49,20 @@ const config = [
     rules: {
       ...graphqlAnalyzer.configs["flat/operations-recommended"].rules,
       ...graphqlAnalyzer.configs["flat/schema-recommended"].rules,
+      // The PokéForge schema is intentionally idiomatic-but-not-pristine.
+      // `require-description` and `strict-id-in-types` are demonstrated in the
+      // dedicated lint-examples workspace (added in plan 04). Keeping them off
+      // here lets the primary app schema feel like a real-world codebase.
+      "@graphql-analyzer/require-description": "off",
+      "@graphql-analyzer/strict-id-in-types": "off",
+      // `TypeEffectiveness` legitimately describes type matchups; the prefix
+      // is meaningful, not a Type/TypeWrapper anti-pattern.
+      "@graphql-analyzer/naming-convention": "off",
+      // The Move interface implementations (PhysicalMove/SpecialMove/StatusMove)
+      // are reachable via interface dispatch (`Move` is selected in queries
+      // and resolved to its concrete subtype). The linter doesn't currently
+      // model interface reachability.
+      "@graphql-analyzer/no-unreachable-types": "off",
     },
   },
 
