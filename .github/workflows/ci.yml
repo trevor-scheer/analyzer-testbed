@@ -33,3 +33,18 @@ jobs:
 
       - name: Prettier
         run: pnpm prettier --check .
+
+      # --- apps/web ---
+      - name: Generate Prisma client
+        run: pnpm --filter @analyzer-testbed/web db:generate
+
+      - name: Type-check apps/web
+        run: pnpm --filter @analyzer-testbed/web tsc
+
+      - name: Run graphql-cli validate (web project)
+        run: pnpm graphql-cli validate --project web
+
+      - name: Run apps/web tests
+        run: pnpm --filter @analyzer-testbed/web test
+        env:
+          DATABASE_URL: file:./prisma/test.db
