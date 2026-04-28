@@ -12,13 +12,7 @@ const STAT_LABELS: Record<string, string> = {
 export function StatBar({ stat, value }: { stat: string; value: number }) {
   const pct = Math.round((value / STAT_MAX) * 100);
   const color =
-    value >= 100
-      ? "#4CAF50"
-      : value >= 70
-        ? "#8BC34A"
-        : value >= 50
-          ? "#FFC107"
-          : "#EF5350";
+    value >= 100 ? "#4CAF50" : value >= 70 ? "#8BC34A" : value >= 50 ? "#FFC107" : "#EF5350";
 
   return (
     <div className="flex items-center gap-3 text-sm">

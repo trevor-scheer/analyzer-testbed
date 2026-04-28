@@ -20,9 +20,7 @@ export function PokemonDetail({ pokemon }: { pokemon: PokemonDetailFragment }) {
               <TypeBadge key={t} type={t} />
             ))}
           </div>
-          <p className="mt-2 text-sm text-[var(--text-muted)] max-w-md">
-            {pokemon.flavorText}
-          </p>
+          <p className="mt-2 text-sm text-[var(--text-muted)] max-w-md">{pokemon.flavorText}</p>
         </div>
       </div>
 
@@ -43,9 +41,7 @@ export function PokemonDetail({ pokemon }: { pokemon: PokemonDetailFragment }) {
 
       {/* Physical info */}
       <Card>
-        <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase mb-3">
-          Details
-        </h2>
+        <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-2 text-sm">
           <div>
             <span className="text-[var(--text-muted)]">Height</span>
@@ -75,16 +71,12 @@ export function PokemonDetail({ pokemon }: { pokemon: PokemonDetailFragment }) {
 
       {/* Abilities */}
       <Card>
-        <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase mb-3">
-          Abilities
-        </h2>
+        <h2 className="text-sm font-semibold text-[var(--text-muted)] uppercase mb-3">Abilities</h2>
         <div className="flex flex-col gap-2">
           {pokemon.abilities.map((a) => (
             <div key={a.name}>
               <span className="font-medium capitalize">{a.name}</span>
-              {a.isHidden && (
-                <span className="ml-2 text-xs text-[var(--accent)]">Hidden</span>
-              )}
+              {a.isHidden && <span className="ml-2 text-xs text-[var(--accent)]">Hidden</span>}
               <p className="text-sm text-[var(--text-muted)]">{a.description}</p>
             </div>
           ))}
@@ -104,9 +96,7 @@ export function PokemonDetail({ pokemon }: { pokemon: PokemonDetailFragment }) {
                 <div className="text-center">
                   <div className="text-xs capitalize">{evo.pokemon.name}</div>
                   {evo.minLevel != null && (
-                    <div className="text-xs text-[var(--text-muted)]">
-                      Lv. {evo.minLevel}
-                    </div>
+                    <div className="text-xs text-[var(--text-muted)]">Lv. {evo.minLevel}</div>
                   )}
                 </div>
               </div>

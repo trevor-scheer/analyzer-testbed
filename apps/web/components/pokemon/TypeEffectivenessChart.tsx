@@ -19,11 +19,7 @@ function multiplierColor(m: number): string {
   return "var(--text-muted)";
 }
 
-export function TypeEffectivenessChart({
-  effectiveness,
-}: {
-  effectiveness: TypeEffectiveness[];
-}) {
+export function TypeEffectivenessChart({ effectiveness }: { effectiveness: TypeEffectiveness[] }) {
   const sorted = [...effectiveness].sort((a, b) => b.multiplier - a.multiplier);
 
   return (
@@ -36,10 +32,7 @@ export function TypeEffectivenessChart({
           <div className="text-[var(--text-muted)] uppercase tracking-wide mb-1">
             {te.attacker.toLowerCase()}
           </div>
-          <div
-            className="font-bold text-sm"
-            style={{ color: multiplierColor(te.multiplier) }}
-          >
+          <div className="font-bold text-sm" style={{ color: multiplierColor(te.multiplier) }}>
             {formatEffectiveness(te.multiplier)}
           </div>
         </div>
