@@ -1,0 +1,57 @@
+subscription BattleUpdates($battleId: ID!) {
+  battleUpdates(battleId: $battleId) {
+    id
+    status
+    winner {
+      id
+      name
+    }
+    turns {
+      id
+      number
+      action {
+        ... on MoveAction {
+          pokemon {
+            id
+            name
+          }
+          move {
+            ... on PhysicalMove {
+              id
+              name
+              power
+            }
+            ... on SpecialMove {
+              id
+              name
+              power
+            }
+            ... on StatusMove {
+              id
+              name
+              effect
+            }
+          }
+          damage
+        }
+        ... on SwitchAction {
+          trainer {
+            id
+            name
+          }
+          incomingPokemon {
+            id
+            name
+            sprite
+          }
+        }
+        ... on ForfeitAction {
+          trainer {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}

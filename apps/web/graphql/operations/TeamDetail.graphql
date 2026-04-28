@@ -1,0 +1,15 @@
+query TeamDetail($id: ID!) {
+  team(id: $id) {
+    id
+    name
+    createdAt
+    updatedAt
+    owner {
+      id
+      name
+    }
+    slots {
+      ...TeamSlotFragment
+    }
+  }
+}
