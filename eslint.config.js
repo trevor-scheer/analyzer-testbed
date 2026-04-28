@@ -63,6 +63,10 @@ const config = [
       // and resolved to its concrete subtype). The linter doesn't currently
       // model interface reachability.
       "@graphql-analyzer/no-unreachable-types": "off",
+      // Pokemon.captureRate is intentionally selected by `PokemonDetail` as a
+      // demonstration that the analyzer surfaces deprecations. Surface it as
+      // a warning (informative) rather than an error (CI-blocking).
+      "@graphql-analyzer/no-deprecated": "warn",
     },
   },
 

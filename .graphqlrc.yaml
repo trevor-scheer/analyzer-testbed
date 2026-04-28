@@ -6,6 +6,7 @@ projects:
     documents:
       - "apps/web/app/**/*.{ts,tsx}"
       - "apps/web/graphql/fragments/*.ts"
+      - "apps/web/graphql/fragments/*.graphql"
       - "apps/web/graphql/operations/**/*.graphql"
       - "!apps/web/graphql/generated/**"
     extensions:
