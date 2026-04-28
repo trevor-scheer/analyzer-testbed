@@ -62,6 +62,9 @@ importers:
       graphql-scalars:
         specifier: ^1.23.0
         version: 1.25.0(graphql@16.13.2)
+      graphql-ws:
+        specifier: ^6.0.8
+        version: 6.0.8(graphql@16.13.2)(ws@8.20.0)
       graphql-yoga:
         specifier: ^5.0.0
         version: 5.21.0(graphql@16.13.2)
