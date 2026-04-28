@@ -1,6 +1,7 @@
 {
   "name": "analyzer-testbed",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@10.14.0",
   "engines": {
     "node": ">=22.0.0",
