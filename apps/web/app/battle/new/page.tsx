@@ -78,8 +78,11 @@ export default function NewBattlePage() {
       <h1 className="text-2xl font-bold mb-6">Start Battle</h1>
       <div className="flex flex-col gap-4">
         <div>
-          <label className="block text-sm text-[var(--text-muted)] mb-1">Your Team</label>
+          <label htmlFor="my-team" className="block text-sm text-[var(--text-muted)] mb-1">
+            Your Team
+          </label>
           <select
+            id="my-team"
             value={myTeamId}
             onChange={(e) => setMyTeamId(e.target.value)}
             className="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
@@ -93,8 +96,11 @@ export default function NewBattlePage() {
           </select>
         </div>
         <div>
-          <label className="block text-sm text-[var(--text-muted)] mb-1">Opponent Team</label>
+          <label htmlFor="opponent-team" className="block text-sm text-[var(--text-muted)] mb-1">
+            Opponent Team
+          </label>
           <select
+            id="opponent-team"
             value={opponentTeamId}
             onChange={(e) => setOpponentTeamId(e.target.value)}
             className="w-full rounded-md border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"

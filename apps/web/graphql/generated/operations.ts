@@ -692,9 +692,9 @@ export type GetPokemonQuery = {
   } | null;
 };
 
-export type GetTypeEffectivenessQueryVariables = Exact<{ [key: string]: never }>;
+export type TypeEffectivenessAllQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetTypeEffectivenessQuery = {
+export type TypeEffectivenessAllQuery = {
   __typename?: "Query";
   typeEffectiveness: Array<{
     __typename?: "TypeEffectiveness";
@@ -1866,13 +1866,13 @@ export const GetPokemonDocument = {
     },
   ],
 } as unknown as DocumentNode<GetPokemonQuery, GetPokemonQueryVariables>;
-export const GetTypeEffectivenessDocument = {
+export const TypeEffectivenessAllDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
       operation: "query",
-      name: { kind: "Name", value: "GetTypeEffectiveness" },
+      name: { kind: "Name", value: "TypeEffectivenessAll" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
@@ -1891,7 +1891,7 @@ export const GetTypeEffectivenessDocument = {
       },
     },
   ],
-} as unknown as DocumentNode<GetTypeEffectivenessQuery, GetTypeEffectivenessQueryVariables>;
+} as unknown as DocumentNode<TypeEffectivenessAllQuery, TypeEffectivenessAllQueryVariables>;
 export const PokemonsPrefetchDocument = {
   kind: "Document",
   definitions: [
