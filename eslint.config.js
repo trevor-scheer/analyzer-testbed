@@ -11,7 +11,9 @@ const config = [
       "**/build/**",
       "**/.next/**",
       "**/__generated__/**",
+      "**/generated/**",
       "**/prisma/migrations/**",
+      "**/next-env.d.ts",
     ],
   },
 
@@ -29,6 +31,10 @@ const config = [
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
     },
   },
 

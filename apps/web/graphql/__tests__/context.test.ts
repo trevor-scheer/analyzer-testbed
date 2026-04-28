@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { buildContext } from "../context.js";
+import { buildContext } from "../context";
 import { PrismaClient } from "@prisma/client";
 
 describe("buildContext", () => {
@@ -28,7 +28,7 @@ describe("buildContext", () => {
       update: {},
     });
 
-    const { signSession, SESSION_COOKIE } = await import("../../lib/auth.js");
+    const { signSession, SESSION_COOKIE } = await import("../../lib/auth");
     const token = signSession(trainer.id);
     const request = new Request("http://localhost/api/graphql", {
       method: "POST",

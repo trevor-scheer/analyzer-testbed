@@ -1,5 +1,5 @@
 import { PrismaClient, Trainer } from "@prisma/client";
-import { getSessionToken, verifySession } from "../lib/auth.js";
+import { getSessionToken, verifySession } from "../lib/auth";
 
 export interface Context {
   prisma: PrismaClient;
