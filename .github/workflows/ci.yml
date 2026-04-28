@@ -41,8 +41,15 @@ jobs:
       - name: Type-check apps/web
         run: pnpm --filter @analyzer-testbed/web tsc
 
-      - name: Run graphql-cli validate (web project)
-        run: pnpm graphql-cli validate --project web
+      - name: Install GraphQL Analyzer CLI
+        run: |
+          curl --proto '=https' --tlsv1.2 -LsSf \
+            https://github.com/trevor-scheer/graphql-analyzer/releases/latest/download/graphql-cli-installer.sh \
+            | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run graphql validate (web project)
+        run: graphql validate --project web
 
       - name: Run apps/web tests
         run: pnpm --filter @analyzer-testbed/web test
