@@ -1,5 +1,5 @@
 # Root graphql-config — one entry per workspace.
-# Entries are added by subsequent plans as workspaces are created.
+# multi-project has its own .graphqlrc.yaml and is NOT listed here.
 projects:
   web:
     schema: "apps/web/graphql/*.graphql"
@@ -22,12 +22,15 @@ projects:
               FieldDefinition: camelCase
               TypeDefinition: PascalCase
               EnumValueDefinition: SCREAMING_SNAKE_CASE
+
   relay:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/relay-app/src/**/*.{ts,tsx}"
     extensions:
-      lint:
-        extends: recommended
+      graphqlAnalyzer:
+        lint:
+          extends: recommended
+
   svelte:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/svelte-app/src/**/*.{ts,svelte}"
@@ -35,6 +38,7 @@ projects:
       graphqlAnalyzer:
         lint:
           extends: recommended
+
   vue:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/vue-app/src/**/*.{ts,vue}"
@@ -42,9 +46,18 @@ projects:
       graphqlAnalyzer:
         lint:
           extends: recommended
+
   astro:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/astro-app/src/**/*.{ts,tsx,astro}"
+    extensions:
+      graphqlAnalyzer:
+        lint:
+          extends: recommended
+
+  remote-schema:
+    schema: "https://countries.trevorblades.com"
+    documents: "examples/remote-schema/src/**/*.ts"
     extensions:
       graphqlAnalyzer:
         lint:
