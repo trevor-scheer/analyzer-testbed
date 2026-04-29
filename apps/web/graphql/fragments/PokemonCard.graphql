@@ -1,3 +1,4 @@
+# LSP demo target: find-refs — place cursor on PokemonCard and press Shift+F12 to see all usages
 fragment PokemonCard on Pokemon {
   id
   name
