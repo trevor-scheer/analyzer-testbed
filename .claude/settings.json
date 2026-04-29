@@ -1,0 +1,5 @@
+{
+  "enabledPlugins": {
+    "graphql-analyzer-lsp@analyzer-testbed": true
+  }
+}
