@@ -15,6 +15,7 @@ const config = [
       "**/prisma/migrations/**",
       "**/next-env.d.ts",
       "**/.svelte-kit/**",
+      "**/.astro/**",
     ],
   },
 
