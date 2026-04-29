@@ -194,3 +194,53 @@ jobs:
 
       - name: Multi-project validation script
         run: pnpm --filter @analyzer-testbed/example-multi-project test
+
+  expect-failure:
+    name: Fixtures report errors (expect non-zero)
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install GraphQL Analyzer CLI
+        env:
+          GRAPHQL_CLI_VERSION: v0.2.3
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl --proto '=https' --tlsv1.2 -LsSf \
+            "https://github.com/trevor-scheer/graphql-analyzer/releases/download/graphql-analyzer-cli/${GRAPHQL_CLI_VERSION}/graphql-cli-x86_64-unknown-linux-gnu.tar.xz" \
+            | tar -xJ -C "$HOME/.local/bin"
+          chmod +x "$HOME/.local/bin/graphql"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Fixtures with hard errors must exit non-zero
+        run: |
+          fail_if_passes() {
+            local project="$1"
+            echo "--- checking fixture project: $project ---"
+            if graphql validate --project "$project"; then
+              echo "ERROR: $project exited 0 — expected errors but found none"
+              exit 1
+            else
+              echo "OK: $project correctly reported errors (non-zero exit)"
+            fi
+          }
+          fail_if_passes fixture-missing-fragment
+          fail_if_passes fixture-unknown-directive
+          fail_if_passes fixture-deprecated-field-usage
+          fail_if_passes fixture-selection-type-mismatch
+
+      - name: Schema-cycle fixture must not hang or crash
+        timeout-minutes: 1
+        run: graphql validate --project fixture-schema-cycle || true
