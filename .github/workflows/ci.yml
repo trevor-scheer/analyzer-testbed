@@ -63,6 +63,12 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm --filter @analyzer-testbed/web exec playwright install chromium --with-deps
 
+      - name: Run Prisma migrations against dev DB
+        run: pnpm --filter @analyzer-testbed/web prisma migrate deploy
+
+      - name: Fetch Pokémon seed data from PokeAPI
+        run: pnpm --filter @analyzer-testbed/web db:seed:fetch
+
       - name: Seed database
         run: pnpm --filter @analyzer-testbed/web db:seed
 
