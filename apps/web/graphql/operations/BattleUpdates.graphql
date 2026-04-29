@@ -1,0 +1,59 @@
+subscription BattleUpdates($battleId: ID!) {
+  battleUpdates(battleId: $battleId) {
+    message
+    battle {
+      id
+      status
+      winner {
+        id
+        name
+      }
+    }
+    latestTurn {
+      id
+      turnNumber
+      actionA {
+        ... on MoveAction {
+          sourcePokemon {
+            id
+            name
+          }
+          move {
+            ... on PhysicalMove {
+              id
+              name
+              power
+            }
+            ... on SpecialMove {
+              id
+              name
+              power
+            }
+            ... on StatusMove {
+              id
+              name
+              inflicts
+            }
+          }
+          damage
+        }
+        ... on SwitchAction {
+          trainer {
+            id
+            name
+          }
+          inPokemon {
+            id
+            name
+          }
+        }
+        ... on ForfeitAction {
+          trainer {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+}

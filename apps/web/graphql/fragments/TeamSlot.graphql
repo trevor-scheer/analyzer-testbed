@@ -1,0 +1,28 @@
+fragment TeamSlot on TeamSlot {
+  id
+  pokemon {
+    ...PokemonCard
+  }
+  nickname
+  level
+  moves {
+    ... on PhysicalMove {
+      id
+      name
+      power
+      pp
+    }
+    ... on SpecialMove {
+      id
+      name
+      power
+      pp
+    }
+    ... on StatusMove {
+      id
+      name
+      pp
+      inflicts
+    }
+  }
+}
