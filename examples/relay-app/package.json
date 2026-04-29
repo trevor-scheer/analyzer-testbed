@@ -26,7 +26,7 @@
     "@types/relay-runtime": "^20.1.0",
     "@vitejs/plugin-react": "^4.3.0",
     "relay-compiler": "^17.0.0",
-    "typescript": "^5.0.0",
+    "typescript": "^6.0.3",
     "vite": "^6.0.0",
     "vite-plugin-relay": "^2.1.0",
     "vitest": "^2.0.0"
