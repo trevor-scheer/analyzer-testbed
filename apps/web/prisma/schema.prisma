@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Pokemon {
+  id            String   @id @default(cuid())
+  pokedexNumber Int      @unique
+  name          String
+  flavorText    String
+  /// JSON array of PokemonType enum strings, e.g. ["FIRE","FLYING"]
+  types         String
+  hp            Int
+  attack        Int
+  defense       Int
+  specialAttack Int
+  specialDefense Int
+  speed         Int
+  /// JSON array of Ability objects: {id, name, description, isHidden}
+  abilities     String
+  /// JSON array of Move objects (PhysicalMove | SpecialMove | StatusMove)
+  moves         String
+  regionId      String
+  region        Region   @relation(fields: [regionId], references: [id])
+  height        Float
+  weight        Float
+  /// JSON array of EvolutionStage objects: {pokemonId, minLevel, triggerItem}
+  evolutionChain String
+  encounterRate  Int
+  syncedAt       DateTime @default(now())
+
+  favoritedBy    Trainer[]  @relation("FavoritePokemon")
+  teamSlots      TeamSlot[]
+}
+
+model Region {
+  id         String    @id @default(cuid())
+  name       String    @unique
+  generation Int
+  pokemon    Pokemon[]
+}
+
+model Trainer {
+  id               String   @id @default(cuid())
+  name             String   @unique
+  joinedAt         DateTime @default(now())
+  favoritePokemonId String?
+  favoritePokemon  Pokemon? @relation("FavoritePokemon", fields: [favoritePokemonId], references: [id])
+  teams            Team[]
+  battlesAsA       Battle[] @relation("TrainerA")
+  battlesAsB       Battle[] @relation("TrainerB")
+  wonBattles       Battle[] @relation("Winner")
+}
+
+model Team {
+  id        String     @id @default(cuid())
+  name      String
+  ownerId   String
+  owner     Trainer    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  slots     TeamSlot[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  battlesAsA Battle[]  @relation("TeamA")
+  battlesAsB Battle[]  @relation("TeamB")
+}
+
+model TeamSlot {
+  id        String  @id @default(cuid())
+  position  Int
+  teamId    String
+  team      Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  pokemonId String
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+  nickname  String?
+  level     Int     @default(50)
+  /// JSON array of Move IDs (strings)
+  moveIds   String  @default("[]")
+
+  @@unique([teamId, position])
+}
+
+model Battle {
+  id          String      @id @default(cuid())
+  trainerAId  String
+  trainerA    Trainer     @relation("TrainerA", fields: [trainerAId], references: [id])
+  trainerBId  String
+  trainerB    Trainer     @relation("TrainerB", fields: [trainerBId], references: [id])
+  teamAId     String
+  teamA       Team        @relation("TeamA", fields: [teamAId], references: [id])
+  teamBId     String
+  teamB       Team        @relation("TeamB", fields: [teamBId], references: [id])
+  turns       BattleTurn[]
+  status      String      @default("WAITING")
+  winnerId    String?
+  winner      Trainer?    @relation("Winner", fields: [winnerId], references: [id])
+  startedAt   DateTime    @default(now())
+  completedAt DateTime?
+}
+
+model BattleTurn {
+  id          String  @id @default(cuid())
+  battleId    String
+  battle      Battle  @relation(fields: [battleId], references: [id], onDelete: Cascade)
+  turnNumber  Int
+  /// JSON: { type: "MOVE"|"SWITCH"|"FORFEIT", trainerId, ...fields }
+  actionA     String
+  /// JSON: { type: "MOVE"|"SWITCH"|"FORFEIT", trainerId, ...fields }
+  actionB     String
+  hpSnapshot  String
+
+  @@unique([battleId, turnNumber])
+}

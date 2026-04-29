@@ -1,0 +1,126 @@
+"""
+A registered trainer (user account).
+"""
+type Trainer {
+  id: ID!
+  name: String!
+  joinedAt: DateTime!
+  """
+  The trainer's favorite Pokémon, if set.
+  """
+  favoritePokemon: Pokemon
+  """
+  All teams owned by this trainer.
+  """
+  teams: [Team!]!
+  """
+  Battles this trainer has participated in.
+  """
+  battleHistory: [Battle!]!
+}
+
+"""
+One slot in a Team (max 6 slots per team).
+"""
+type TeamSlot {
+  id: ID!
+  position: Int!
+  pokemon: Pokemon!
+  """
+  Optional nickname set by the trainer.
+  """
+  nickname: String
+  """
+  Level of this Pokémon (1–100).
+  """
+  level: Int!
+  """
+  Up to 4 moves selected for this slot.
+  """
+  moves: [Move!]!
+}
+
+"""
+A named team of up to 6 Pokémon.
+"""
+type Team {
+  id: ID!
+  name: String!
+  owner: Trainer!
+  slots: [TeamSlot!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+extend type Query {
+  """
+  The currently authenticated trainer, or null if not signed in.
+  """
+  viewer: Trainer
+  """
+  Fetch a team by ID (only the owner can view their own teams).
+  """
+  team(id: ID!): Team
+}
+
+input SignInInput {
+  """
+  Display name for the session. Creates an account if it does not exist.
+  """
+  name: String!
+}
+
+input CreateTeamInput {
+  name: String!
+}
+
+input UpdateTeamInput {
+  teamId: ID!
+  name: String
+  """
+  Full replacement of the slot list. Omit to leave slots unchanged.
+  """
+  slots: [TeamSlotInput!]
+}
+
+input TeamSlotInput {
+  pokemonId: ID!
+  nickname: String
+  """
+  Defaults to 50 if omitted.
+  """
+  level: Int
+  """
+  Up to 4 move IDs.
+  """
+  moveIds: [ID!]
+}
+
+input FavoritePokemonInput {
+  pokemonId: ID!
+}
+
+type AuthPayload {
+  trainer: Trainer!
+}
+
+type TeamPayload {
+  team: Team!
+}
+
+extend type Mutation {
+  """
+  Sign in with a display name. Creates the trainer account on first use.
+  Sets a session cookie.
+  """
+  signIn(input: SignInInput!): AuthPayload!
+  """
+  Clear the session cookie.
+  """
+  signOut: Boolean!
+  createTeam(input: CreateTeamInput!): TeamPayload!
+  updateTeam(input: UpdateTeamInput!): TeamPayload!
+  deleteTeam(id: ID!): Boolean!
+  favoritePokemon(input: FavoritePokemonInput!): Trainer!
+  unfavoritePokemon: Trainer!
+}
