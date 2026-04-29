@@ -65,17 +65,22 @@ jobs:
 
       - name: Run Prisma migrations against dev DB
         run: pnpm --filter @analyzer-testbed/web prisma migrate deploy
+        env:
+          DATABASE_URL: file:./dev.db
 
       - name: Fetch Pokémon seed data from PokeAPI
         run: pnpm --filter @analyzer-testbed/web db:seed:fetch
 
       - name: Seed database
         run: pnpm --filter @analyzer-testbed/web db:seed
+        env:
+          DATABASE_URL: file:./dev.db
 
       - name: Run Playwright E2E tests
         run: pnpm --filter @analyzer-testbed/web exec playwright test
         env:
           CI: true
+          DATABASE_URL: file:./dev.db
 
       - name: Upload Playwright report
         if: failure()
