@@ -115,6 +115,16 @@ const config = [
       "@graphql-analyzer/no-unused-fragments": "off",
     },
   },
+  // Relay-generated and relay-authored GraphQL fragments follow Relay naming
+  // conventions (ComponentName_propName for fragments, OperationNameQuery for
+  // queries) which conflict with the default naming-convention rules. Disable
+  // it for relay-app sources.
+  {
+    files: ["examples/relay-app/src/**/*.{ts,tsx}"],
+    rules: {
+      "@graphql-analyzer/naming-convention": "off",
+    },
+  },
 ];
 
 export default config;

@@ -22,3 +22,9 @@ projects:
               FieldDefinition: camelCase
               TypeDefinition: PascalCase
               EnumValueDefinition: SCREAMING_SNAKE_CASE
+  relay:
+    schema: "apps/web/graphql/*.graphql"
+    documents: "examples/relay-app/src/**/*.{ts,tsx}"
+    extensions:
+      lint:
+        extends: recommended
