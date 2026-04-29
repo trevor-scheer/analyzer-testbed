@@ -1,0 +1,7 @@
+query GetPokemonDetail($id: ID!) {
+  pokemon(id: $id) {
+    id
+    name
+    captureRate
+  }
+}

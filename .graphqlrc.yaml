@@ -62,3 +62,26 @@ projects:
       graphqlAnalyzer:
         lint:
           extends: recommended
+
+  fixture-missing-fragment:
+    schema: fixtures/intentional-errors/missing-fragment/schema.graphql
+    documents: fixtures/intentional-errors/missing-fragment/operations.graphql
+
+  fixture-unknown-directive:
+    schema: fixtures/intentional-errors/unknown-directive/schema.graphql
+    documents: fixtures/intentional-errors/unknown-directive/operations.graphql
+
+  fixture-deprecated-field-usage:
+    schema: fixtures/intentional-errors/deprecated-field-usage/schema.graphql
+    documents: fixtures/intentional-errors/deprecated-field-usage/operations.graphql
+    extensions:
+      lint:
+        rules:
+          no-deprecated: error
+
+  fixture-selection-type-mismatch:
+    schema: fixtures/intentional-errors/selection-type-mismatch/schema.graphql
+    documents: fixtures/intentional-errors/selection-type-mismatch/operations.graphql
+
+  fixture-schema-cycle:
+    schema: fixtures/intentional-errors/schema-cycle/schema.graphql

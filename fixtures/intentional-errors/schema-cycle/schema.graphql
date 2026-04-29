@@ -1,0 +1,37 @@
+type Query {
+  region(id: ID!): Region
+}
+
+# Region → Location → Area → Region forms a non-trivial cycle.
+# This is valid GraphQL (object type cycles are allowed), but the analyzer
+# should warn when cycle detection is enabled in lint config.
+type Region {
+  id: ID!
+  name: String!
+  locations: [Location!]!
+}
+
+type Location {
+  id: ID!
+  name: String!
+  region: Region!
+  areas: [Area!]!
+}
+
+type Area {
+  id: ID!
+  name: String!
+  location: Location!
+  encounters: [Encounter!]!
+}
+
+type Encounter {
+  id: ID!
+  pokemon: Pokemon!
+  area: Area!
+}
+
+type Pokemon {
+  id: ID!
+  name: String!
+}

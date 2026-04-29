@@ -1,5 +1,7 @@
 query PokemonDetail($id: ID!) {
   pokemon(id: $id) {
+    # LSP demo target: goto-def — place cursor on PokemonDetail and press F12
     ...PokemonDetail
+    # LSP demo target: completion — place cursor after the opening brace above and press Ctrl+Space
   }
 }

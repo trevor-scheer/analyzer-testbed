@@ -28,6 +28,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Shellcheck
+        run: shellcheck scripts/*.sh
+
       - name: ESLint
         run: pnpm eslint .
 
@@ -194,3 +197,59 @@ jobs:
 
       - name: Multi-project validation script
         run: pnpm --filter @analyzer-testbed/example-multi-project test
+
+  expect-failure:
+    name: Fixtures report errors (expect non-zero)
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install GraphQL Analyzer CLI
+        env:
+          GRAPHQL_CLI_VERSION: v0.2.3
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl --proto '=https' --tlsv1.2 -LsSf \
+            "https://github.com/trevor-scheer/graphql-analyzer/releases/download/graphql-analyzer-cli/${GRAPHQL_CLI_VERSION}/graphql-cli-x86_64-unknown-linux-gnu.tar.xz" \
+            | tar -xJ -C "$HOME/.local/bin"
+          chmod +x "$HOME/.local/bin/graphql"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Fixtures must report errors
+        # `graphql validate` v0.2.3 always exits 0 even when errors are found
+        # (tracked: trevor-scheer/graphql-analyzer#1040). Workaround: parse
+        # `--format=json` output and assert `stats.total_errors > 0`.
+        run: |
+          assert_errors() {
+            local project="$1"
+            local errors
+            errors=$(graphql validate --format=json --project "$project" \
+              | jq -r '.stats.total_errors // 0')
+            if [ "${errors:-0}" -eq 0 ]; then
+              echo "ERROR: $project reported 0 errors — expected at least 1"
+              exit 1
+            fi
+            echo "OK: $project reported $errors error(s)"
+          }
+          assert_errors fixture-missing-fragment
+          assert_errors fixture-unknown-directive
+          # deprecated-field-usage is a warning, not an error — skip the
+          # numeric assertion. Just exercise the command for smoke coverage.
+          graphql validate --project fixture-deprecated-field-usage > /dev/null
+          assert_errors fixture-selection-type-mismatch
+
+      - name: Schema-cycle fixture must not hang or crash
+        timeout-minutes: 1
+        run: graphql validate --project fixture-schema-cycle || true

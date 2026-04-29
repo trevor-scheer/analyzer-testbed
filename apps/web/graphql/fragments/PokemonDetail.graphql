@@ -5,6 +5,8 @@ fragment PokemonDetail on Pokemon {
   weight
   # captureRate is deprecated in favor of encounterRate — intentional usage
   # so the GraphQL Analyzer flags it as a deprecation warning.
+  # LSP demo target: hover — hover here to see the deprecation reason
+  # LSP demo target: diagnostic — this field is underlined; hover to see the warning
   captureRate
   encounterRate
   abilities {
