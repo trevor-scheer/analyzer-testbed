@@ -76,10 +76,7 @@ const config = [
   // extracted from .ts gql templates by the processor. Spreads happen in
   // operation files of different formats; linter can't resolve cross-file.
   {
-    files: [
-      "**/graphql/fragments/*.graphql",
-      "**/graphql/fragments/*.ts/*.graphql",
-    ],
+    files: ["**/graphql/fragments/*.graphql", "**/graphql/fragments/*.ts/*.graphql"],
     rules: {
       "@graphql-analyzer/no-unused-fragments": "off",
       // require-selections cannot resolve fragment spreads across files
@@ -127,6 +124,17 @@ const config = [
     files: ["examples/relay-app/src/**/*.{ts,tsx}"],
     rules: {
       "@graphql-analyzer/naming-convention": "off",
+    },
+  },
+
+  // multi-project/shop deliberately selects the deprecated `cost` field to
+  // demonstrate that the per-project .graphqlrc.yaml can silence the rule.
+  // ESLint runs against the root config (which re-enables no-deprecated), so
+  // we suppress it here at the file level to avoid a false-positive CI error.
+  {
+    files: ["examples/multi-project/src/shop/**/*.{ts,tsx}"],
+    rules: {
+      "@graphql-analyzer/no-deprecated": "off",
     },
   },
 ];
