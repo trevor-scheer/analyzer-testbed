@@ -1,0 +1,18 @@
+type Query {
+  move(id: ID!): Move
+  pokemon(id: ID!): Pokemon
+}
+
+type Pokemon {
+  id: ID!
+  name: String!
+  number: Int!
+  types: [String!]!
+}
+
+type Move {
+  id: ID!
+  name: String!
+  power: Int
+  accuracy: Int
+}

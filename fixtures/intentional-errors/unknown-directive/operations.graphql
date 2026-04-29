@@ -1,0 +1,10 @@
+query PokemonList($first: Int) {
+  pokemons(first: $first) @conection(key: "pokedex") {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}

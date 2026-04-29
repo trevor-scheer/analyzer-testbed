@@ -16,6 +16,9 @@ const config = [
       "**/next-env.d.ts",
       "**/.svelte-kit/**",
       "**/.astro/**",
+      // Intentional-error fixtures are checked via `graphql validate`, not ESLint.
+      // They contain deliberately broken GraphQL that would cause false positives.
+      "fixtures/**",
     ],
   },
 

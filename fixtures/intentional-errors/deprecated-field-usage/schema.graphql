@@ -1,0 +1,10 @@
+type Query {
+  pokemon(id: ID!): Pokemon
+}
+
+type Pokemon {
+  id: ID!
+  name: String!
+  encounterRate: Float!
+  captureRate: Float @deprecated(reason: "Use `encounterRate` instead")
+}

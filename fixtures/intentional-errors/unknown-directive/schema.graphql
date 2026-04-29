@@ -1,0 +1,23 @@
+type Query {
+  pokemons(first: Int): PokemonConnection
+}
+
+type PokemonConnection {
+  edges: [PokemonEdge!]!
+  pageInfo: PageInfo!
+}
+
+type PokemonEdge {
+  cursor: String!
+  node: Pokemon!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+type Pokemon {
+  id: ID!
+  name: String!
+}

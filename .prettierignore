@@ -5,3 +5,6 @@ apps/web/test-results/
 # Design specs are faithful copies from the graphql-analyzer repo —
 # don't reformat them so updates stay byte-comparable to the source.
 docs/
+
+# Intentional-error fixtures contain deliberately broken GraphQL — skip prettier.
+fixtures/

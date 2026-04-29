@@ -1,0 +1,8 @@
+query GetMove($id: ID!) {
+  move(id: $id) {
+    id
+    name
+    number
+    types
+  }
+}
