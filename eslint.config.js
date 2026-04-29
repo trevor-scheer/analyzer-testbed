@@ -71,12 +71,14 @@ const config = [
     },
   },
 
-  // Virtual .graphql documents extracted by the processor from fragment TS
-  // files live at paths like `graphql/fragments/Foo.fragment.ts/*.graphql`.
-  // These fragments are exported and consumed via JS import in other files;
-  // require-selections and no-unused-fragments cannot see cross-file usage.
+  // Fragment files — both real .graphql siblings and virtual .graphql
+  // extracted from .ts gql templates by the processor. Spreads happen in
+  // operation files of different formats; linter can't resolve cross-file.
   {
-    files: ["**/graphql/fragments/*.ts/*.graphql"],
+    files: [
+      "**/graphql/fragments/*.graphql",
+      "**/graphql/fragments/*.ts/*.graphql",
+    ],
     rules: {
       "@graphql-analyzer/no-unused-fragments": "off",
       // require-selections cannot resolve fragment spreads across files
