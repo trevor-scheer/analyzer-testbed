@@ -42,3 +42,10 @@ projects:
       graphqlAnalyzer:
         lint:
           extends: recommended
+  astro:
+    schema: "apps/web/graphql/*.graphql"
+    documents: "examples/astro-app/src/**/*.{ts,tsx,astro}"
+    extensions:
+      graphqlAnalyzer:
+        lint:
+          extends: recommended
