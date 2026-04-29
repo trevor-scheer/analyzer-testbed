@@ -35,3 +35,10 @@ projects:
       graphqlAnalyzer:
         lint:
           extends: recommended
+  vue:
+    schema: "apps/web/graphql/*.graphql"
+    documents: "examples/vue-app/src/**/*.{ts,vue}"
+    extensions:
+      graphqlAnalyzer:
+        lint:
+          extends: recommended
