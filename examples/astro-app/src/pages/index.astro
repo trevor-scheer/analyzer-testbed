@@ -1,0 +1,51 @@
+---
+import { client } from "../lib/urql.ts";
+import PokedexGrid from "../components/PokedexGrid.tsx";
+
+// GraphQL query in .astro frontmatter — the analyzer must extract this.
+const POKEMON_LIST = /* GraphQL */ `
+  query PokemonList($first: Int) {
+    pokemons(first: $first) {
+      edges {
+        node {
+          id
+          name
+          pokedexNumber
+          types
+        }
+      }
+    }
+  }
+`;
+
+// During SSG/SSR, this fetch hits MSW (browser) or the real endpoint (Node).
+// For CI builds we rely on the static build + astro check for type validation;
+// the actual fetch is irrelevant at build time.
+let pokemon: Array<{ id: string; name: string; pokedexNumber: number; types: string[] }> = [];
+try {
+  const result = await client.query<{
+    pokemons: {
+      edges: Array<{ node: { id: string; name: string; pokedexNumber: number; types: string[] } }>;
+    };
+  }>(POKEMON_LIST, { first: 20 });
+  pokemon = (result.data?.pokemons.edges ?? []).map((e) => e.node);
+} catch {
+  // Build-time fetch may fail in CI (no server) — render empty list gracefully.
+  pokemon = [];
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pokédex — Astro Example</title>
+  </head>
+  <body style="font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 24px">
+    <h1>Pokédex</h1>
+    <p style="color: #888; font-size: 14px">
+      Powered by Astro + urql — .astro frontmatter GraphQL extraction
+    </p>
+    <PokedexGrid pokemon={pokemon} client:load />
+  </body>
+</html>
