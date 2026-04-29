@@ -1,0 +1,9 @@
+{
+  "src": "./src",
+  "schema": "../../apps/web/graphql/schema.graphql",
+  "schemaExtensions": [],
+  "language": "typescript",
+  "artifactDirectory": "./src/__generated__",
+  "eagerEsModules": true,
+  "excludes": ["**/__generated__/**", "**/node_modules/**"]
+}

@@ -1,0 +1,54 @@
+"""
+A product available for purchase in the PokéMart.
+"""
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  price: Int!
+  """
+  @deprecated Use `price` instead — kept for illustration of deprecation lint rules.
+  """
+  cost: Int @deprecated(reason: "Use price instead")
+  inStock: Boolean!
+}
+
+type CartItem {
+  id: ID!
+  product: Product!
+  quantity: Int!
+}
+
+type Cart {
+  id: ID!
+  items: [CartItem!]!
+  total: Int!
+}
+
+type Order {
+  id: ID!
+  cart: Cart!
+  placedAt: String!
+  status: OrderStatus!
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+type Query {
+  product(id: ID!): Product
+  products: [Product!]!
+  cart(id: ID!): Cart
+  order(id: ID!): Order
+}
+
+type Mutation {
+  addToCart(cartId: ID!, productId: ID!, quantity: Int!): Cart!
+  removeFromCart(cartId: ID!, itemId: ID!): Cart!
+  placeOrder(cartId: ID!): Order!
+}

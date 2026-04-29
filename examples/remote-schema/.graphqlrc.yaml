@@ -1,0 +1,6 @@
+schema: "https://countries.trevorblades.com"
+documents: "src/**/*.ts"
+extensions:
+  graphqlAnalyzer:
+    lint:
+      extends: recommended

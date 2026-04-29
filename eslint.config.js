@@ -14,6 +14,8 @@ const config = [
       "**/generated/**",
       "**/prisma/migrations/**",
       "**/next-env.d.ts",
+      "**/.svelte-kit/**",
+      "**/.astro/**",
     ],
   },
 
@@ -70,12 +72,11 @@ const config = [
     },
   },
 
-  // Virtual .graphql documents extracted by the processor from fragment TS
-  // files live at paths like `graphql/fragments/Foo.fragment.ts/*.graphql`.
-  // These fragments are exported and consumed via JS import in other files;
-  // require-selections and no-unused-fragments cannot see cross-file usage.
+  // Fragment files — both real .graphql siblings and virtual .graphql
+  // extracted from .ts gql templates by the processor. Spreads happen in
+  // operation files of different formats; linter can't resolve cross-file.
   {
-    files: ["**/graphql/fragments/*.ts/*.graphql"],
+    files: ["**/graphql/fragments/*.graphql", "**/graphql/fragments/*.ts/*.graphql"],
     rules: {
       "@graphql-analyzer/no-unused-fragments": "off",
       // require-selections cannot resolve fragment spreads across files
@@ -113,6 +114,27 @@ const config = [
     rules: {
       ...graphqlAnalyzer.configs["flat/operations-recommended"].rules,
       "@graphql-analyzer/no-unused-fragments": "off",
+    },
+  },
+  // Relay-generated and relay-authored GraphQL fragments follow Relay naming
+  // conventions (ComponentName_propName for fragments, OperationNameQuery for
+  // queries) which conflict with the default naming-convention rules. Disable
+  // it for relay-app sources.
+  {
+    files: ["examples/relay-app/src/**/*.{ts,tsx}"],
+    rules: {
+      "@graphql-analyzer/naming-convention": "off",
+    },
+  },
+
+  // multi-project/shop deliberately selects the deprecated `cost` field to
+  // demonstrate that the per-project .graphqlrc.yaml can silence the rule.
+  // ESLint runs against the root config (which re-enables no-deprecated), so
+  // we suppress it here at the file level to avoid a false-positive CI error.
+  {
+    files: ["examples/multi-project/src/shop/**/*.{ts,tsx}"],
+    rules: {
+      "@graphql-analyzer/no-deprecated": "off",
     },
   },
 ];

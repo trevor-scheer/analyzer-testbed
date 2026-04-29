@@ -1,0 +1,25 @@
+# This .graphqlrc.yaml is intentionally local to examples/multi-project/
+# — it is NOT registered in the root .graphqlrc.yaml. The package is its
+# own demo of the multi-project config pattern.
+
+projects:
+  pokedex:
+    schema: "../../apps/web/graphql/*.graphql"
+    documents: "src/pokedex/**/*.ts"
+    extensions:
+      graphqlAnalyzer:
+        lint:
+          # Project A: full recommended ruleset
+          extends: recommended
+
+  shop:
+    schema: "schema/shop.graphql"
+    documents: "src/shop/**/*.ts"
+    extensions:
+      graphqlAnalyzer:
+        lint:
+          # Project B: recommended but with deprecation warnings silenced,
+          # since shop.graphql deliberately uses @deprecated for demo purposes.
+          extends: recommended
+          rules:
+            no-deprecated: off
