@@ -8,27 +8,8 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from "relay-runtime";
-export type PokemonType =
-  | "BUG"
-  | "DARK"
-  | "DRAGON"
-  | "ELECTRIC"
-  | "FAIRY"
-  | "FIGHTING"
-  | "FIRE"
-  | "FLYING"
-  | "GHOST"
-  | "GRASS"
-  | "GROUND"
-  | "ICE"
-  | "NORMAL"
-  | "POISON"
-  | "PSYCHIC"
-  | "ROCK"
-  | "STEEL"
-  | "WATER"
-  | "%future added value";
+import { Fragment, ReaderFragment } from 'relay-runtime';
+export type PokemonType = "BUG" | "DARK" | "DRAGON" | "ELECTRIC" | "FAIRY" | "FIGHTING" | "FIRE" | "FLYING" | "GHOST" | "GRASS" | "GROUND" | "ICE" | "NORMAL" | "POISON" | "PSYCHIC" | "ROCK" | "STEEL" | "WATER" | "%future added value";
 import { FragmentRefs } from "relay-runtime";
 export type PokemonCard_pokemon$data = {
   readonly id: string;
@@ -43,42 +24,42 @@ export type PokemonCard_pokemon$key = {
 };
 
 const node: ReaderFragment = {
-  argumentDefinitions: [],
-  kind: "Fragment",
-  metadata: null,
-  name: "PokemonCard_pokemon",
-  selections: [
+  "argumentDefinitions": [],
+  "kind": "Fragment",
+  "metadata": null,
+  "name": "PokemonCard_pokemon",
+  "selections": [
     {
-      alias: null,
-      args: null,
-      kind: "ScalarField",
-      name: "id",
-      storageKey: null,
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "id",
+      "storageKey": null
     },
     {
-      alias: null,
-      args: null,
-      kind: "ScalarField",
-      name: "name",
-      storageKey: null,
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "name",
+      "storageKey": null
     },
     {
-      alias: null,
-      args: null,
-      kind: "ScalarField",
-      name: "pokedexNumber",
-      storageKey: null,
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "pokedexNumber",
+      "storageKey": null
     },
     {
-      alias: null,
-      args: null,
-      kind: "ScalarField",
-      name: "types",
-      storageKey: null,
-    },
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "types",
+      "storageKey": null
+    }
   ],
-  type: "Pokemon",
-  abstractKey: null,
+  "type": "Pokemon",
+  "abstractKey": null
 };
 
 (node as any).hash = "00c21d7c5302b6f39c14680340f3eded";
