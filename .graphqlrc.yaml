@@ -28,3 +28,10 @@ projects:
     extensions:
       lint:
         extends: recommended
+  svelte:
+    schema: "apps/web/graphql/*.graphql"
+    documents: "examples/svelte-app/src/**/*.{ts,svelte}"
+    extensions:
+      graphqlAnalyzer:
+        lint:
+          extends: recommended
