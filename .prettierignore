@@ -8,3 +8,6 @@ docs/
 
 # Intentional-error fixtures contain deliberately broken GraphQL — skip prettier.
 fixtures/
+
+# Shell scripts — prettier has no shell parser.
+scripts/
