@@ -14,12 +14,11 @@ projects:
         lint:
           rules:
             # Deprecation rules — captureRate is @deprecated, so this triggers
-            - rule: noDeprecated
-              severity: warning
+            noDeprecated: warn
             # Naming conventions
-            - rule: namingConvention
+            namingConvention:
               severity: error
-              config:
+              options:
                 FieldDefinition: camelCase
                 TypeDefinition: PascalCase
                 EnumValueDefinition: SCREAMING_SNAKE_CASE
