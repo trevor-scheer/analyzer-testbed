@@ -10,24 +10,25 @@ projects:
       - "apps/web/graphql/operations/**/*.graphql"
       - "!apps/web/graphql/generated/**"
     extensions:
-      lint:
-        rules:
-          # Deprecation rules — captureRate is @deprecated, so this triggers
-          - rule: no-deprecated
-            severity: warning
-          # Naming conventions
-          - rule: naming-convention
-            severity: error
-            config:
-              FieldDefinition: camelCase
-              TypeDefinition: PascalCase
-              EnumValueDefinition: SCREAMING_SNAKE_CASE
+      graphql-analyzer:
+        lint:
+          rules:
+            # Deprecation rules — captureRate is @deprecated, so this triggers
+            - rule: noDeprecated
+              severity: warning
+            # Naming conventions
+            - rule: namingConvention
+              severity: error
+              config:
+                FieldDefinition: camelCase
+                TypeDefinition: PascalCase
+                EnumValueDefinition: SCREAMING_SNAKE_CASE
 
   relay:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/relay-app/src/**/*.{ts,tsx}"
     extensions:
-      graphqlAnalyzer:
+      graphql-analyzer:
         lint:
           extends: recommended
 
@@ -35,7 +36,7 @@ projects:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/svelte-app/src/**/*.{ts,svelte}"
     extensions:
-      graphqlAnalyzer:
+      graphql-analyzer:
         lint:
           extends: recommended
 
@@ -43,7 +44,7 @@ projects:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/vue-app/src/**/*.{ts,vue}"
     extensions:
-      graphqlAnalyzer:
+      graphql-analyzer:
         lint:
           extends: recommended
 
@@ -51,7 +52,7 @@ projects:
     schema: "apps/web/graphql/*.graphql"
     documents: "examples/astro-app/src/**/*.{ts,tsx,astro}"
     extensions:
-      graphqlAnalyzer:
+      graphql-analyzer:
         lint:
           extends: recommended
 
@@ -59,7 +60,7 @@ projects:
     schema: "https://countries.trevorblades.com"
     documents: "examples/remote-schema/src/**/*.ts"
     extensions:
-      graphqlAnalyzer:
+      graphql-analyzer:
         lint:
           extends: recommended
 
@@ -75,9 +76,10 @@ projects:
     schema: fixtures/intentional-errors/deprecated-field-usage/schema.graphql
     documents: fixtures/intentional-errors/deprecated-field-usage/operations.graphql
     extensions:
-      lint:
-        rules:
-          no-deprecated: error
+      graphql-analyzer:
+        lint:
+          rules:
+            noDeprecated: error
 
   fixture-selection-type-mismatch:
     schema: fixtures/intentional-errors/selection-type-mismatch/schema.graphql

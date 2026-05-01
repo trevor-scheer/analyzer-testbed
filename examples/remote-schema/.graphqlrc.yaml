@@ -1,6 +1,6 @@
 schema: "https://countries.trevorblades.com"
 documents: "src/**/*.ts"
 extensions:
-  graphqlAnalyzer:
+  graphql-analyzer:
     lint:
       extends: recommended
