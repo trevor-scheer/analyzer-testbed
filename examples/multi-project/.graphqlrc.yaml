@@ -7,7 +7,7 @@ projects:
     schema: "../../apps/web/graphql/*.graphql"
     documents: "src/pokedex/**/*.ts"
     extensions:
-      graphqlAnalyzer:
+      graphql-analyzer:
         lint:
           # Project A: full recommended ruleset
           extends: recommended
@@ -16,10 +16,10 @@ projects:
     schema: "schema/shop.graphql"
     documents: "src/shop/**/*.ts"
     extensions:
-      graphqlAnalyzer:
+      graphql-analyzer:
         lint:
           # Project B: recommended but with deprecation warnings silenced,
           # since shop.graphql deliberately uses @deprecated for demo purposes.
           extends: recommended
           rules:
-            no-deprecated: off
+            noDeprecated: off

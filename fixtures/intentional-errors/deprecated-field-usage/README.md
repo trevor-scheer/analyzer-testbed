@@ -26,5 +26,13 @@ warning[no-deprecated]: Field `Pokemon.captureRate` is deprecated
 ## How to use as a repro
 
 1. Copy this directory to a fresh location
-2. Add a `.graphqlrc.yaml` with `lint: rules: no-deprecated: error`
+2. Add a `.graphqlrc.yaml` with the lint rule under the `graphql-analyzer`
+   extension namespace:
+   ```yaml
+   extensions:
+     graphql-analyzer:
+       lint:
+         rules:
+           no-deprecated: error
+   ```
 3. Run `graphql-cli check .`
