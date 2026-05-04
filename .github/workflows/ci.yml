@@ -49,7 +49,7 @@ jobs:
 
       - name: Run GraphQL Analyzer (web project)
         id: graphql
-        uses: trevor-scheer/graphql-analyzer-action@v0.3.0
+        uses: trevor-scheer/graphql-analyzer-action@v1
         with:
           project: web
           command: validate
