@@ -150,7 +150,7 @@ extend type Mutation {
   submitBattleAction(input: SubmitBattleActionInput!): BattlePayload!
 }
 
-extend type Subscription {
+type Subscription {
   """
   Stream battle state updates in real time (via SSE).
   """
