@@ -10,6 +10,9 @@ jobs:
   validate:
     name: Lint & Format
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
 
     steps:
       - name: Checkout
@@ -44,19 +47,19 @@ jobs:
       - name: Type-check apps/web
         run: pnpm --filter @analyzer-testbed/web tsc
 
-      - name: Install GraphQL Analyzer CLI
-        env:
-          GRAPHQL_CLI_VERSION: v0.2.3
-        run: |
-          mkdir -p "$HOME/.local/bin"
-          curl --proto '=https' --tlsv1.2 -LsSf \
-            "https://github.com/trevor-scheer/graphql-analyzer/releases/download/graphql-analyzer-cli/${GRAPHQL_CLI_VERSION}/graphql-cli-x86_64-unknown-linux-gnu.tar.xz" \
-            | tar -xJ -C "$HOME/.local/bin"
-          chmod +x "$HOME/.local/bin/graphql"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Run GraphQL Analyzer (web project)
+        id: graphql
+        uses: trevor-scheer/graphql-analyzer-action@v0.3.0
+        with:
+          project: web
+          command: validate
+          sarif: true
 
-      - name: Run graphql validate (web project)
-        run: graphql validate --project web
+      - name: Upload SARIF to GitHub code scanning
+        if: always() && steps.graphql.outputs.sarif-file != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.graphql.outputs.sarif-file }}
 
       - name: Run apps/web tests
         run: pnpm --filter @analyzer-testbed/web test
