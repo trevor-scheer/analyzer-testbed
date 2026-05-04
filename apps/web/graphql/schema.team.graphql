@@ -108,7 +108,7 @@ type TeamPayload {
   team: Team!
 }
 
-extend type Mutation {
+type Mutation {
   """
   Sign in with a display name. Creates the trainer account on first use.
   Sets a session cookie.
