@@ -6,11 +6,15 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "msw": "^2.7.0",
     "graphql": "^16.9.0"
   },
   "devDependencies": {
+    "@types/node": "^22.0.0",
     "typescript": "^5.0.0"
   }
 }
